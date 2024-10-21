@@ -10,12 +10,15 @@ class Dataset(Artifact):
 
     @staticmethod
     def from_dataframe(data: pd.DataFrame, name: str, asset_path: str, version: str="1.0.0"):
-        return Dataset(
+
+        dataset_2 =  Dataset(
             name=name,
             asset_path=asset_path,
             data=data.to_csv(index=False).encode(),
             version=version,
         )
+        print(f"datasetttt:\n{dataset_2}")
+        return dataset_2
         
     def read(self) -> pd.DataFrame:
         bytes = super().read()

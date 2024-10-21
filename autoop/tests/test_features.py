@@ -22,6 +22,8 @@ class TestFeatures(unittest.TestCase):
             asset_path="iris.csv",
             data=df,
         )
+        #print(f"iris:\n{iris},\ndataset:{dataset}")
+        print(f"type(dataset):{dataset}\nHI")
         self.X = iris.data
         self.y = iris.target
         features = detect_feature_types(dataset)
@@ -70,3 +72,7 @@ class TestFeatures(unittest.TestCase):
             self.assertEqual(detected_feature.type, "numerical")
         for detected_feature in filter(lambda x: x.name in categorical_columns, features):
             self.assertEqual(detected_feature.type, "categorical")
+
+
+if __name__ == '__main__':
+    unittest.main()
