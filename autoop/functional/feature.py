@@ -14,7 +14,9 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
     # categorical
     # numerical
     pandaframe  = dataset.read()
-    pandatypes = pandaframe.dtypes()
-    # for datatype in pandatypes:
+    pandatypes = pandaframe.dtypes.iloc[:,0]
+    featurelist = []
+    for row in pandatypes:  
+        datatype = pandatypes.iloc[row]
         
     raise NotImplementedError("This should be implemented by you.")

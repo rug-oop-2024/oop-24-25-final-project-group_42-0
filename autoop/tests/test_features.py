@@ -1,10 +1,12 @@
 import unittest
-from sklearn.datasets import load_iris, fetch_openml
+
 import pandas as pd
+from sklearn.datasets import fetch_openml, load_iris
 
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.functional.feature import detect_feature_types
+
 
 class TestFeatures(unittest.TestCase):
 
@@ -22,8 +24,6 @@ class TestFeatures(unittest.TestCase):
             asset_path="iris.csv",
             data=df,
         )
-        #print(f"iris:\n{iris},\ndataset:{dataset}")
-        print(f"type(dataset):{dataset}\nHI")
         self.X = iris.data
         self.y = iris.target
         features = detect_feature_types(dataset)
@@ -33,7 +33,7 @@ class TestFeatures(unittest.TestCase):
             self.assertIsInstance(feature, Feature)
             self.assertEqual(feature.name in iris.feature_names, True)
             self.assertEqual(feature.type, "numerical")
-        
+
     def test_detect_features_with_categories(self):
         data = fetch_openml(name="adult", version=1, parser="auto")
         df = pd.DataFrame(
