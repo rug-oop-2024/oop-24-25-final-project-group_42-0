@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from autoop.core.ml.dataset import Dataset
 
 
-class Feature(BaseModel):
+class Feature():
     # attributes here
     type: str = Field(default = "Not identified")
 
