@@ -32,26 +32,24 @@ class Artifact():
         if not os.path.exists("./savedgames"):
             os.makedirs("./savedgames")
 
-        data = bytes.decode().split("\r\n")
+        data = bytes.decode().split("\r")
 
-        with open("./savedgames/save.csv", "w") as file:
-            print(file)
-            csv_file = csv.writer(file, delimiter=" ")
-            for line in data:
-                csv_file.writerow([line])
+        with open("./savedgames/" + self.asset_path, "w") as file:
+            file.writelines(data)
+            # for line in data:
+            #     csv_file.writerow([line])
             # file.write(encoded_stuff, indent=4)
         return bytes
 
-    def read(self) -> bytes:
+    def read(self) -> str:
         """reads the game from the savedgames directory"""
         if not os.path.exists("./savedgames/"):
             raise FileNotFoundError("savedgames directory not found")
-        if not os.path.exists("./savedgames/save.csv"):
+        if not os.path.exists("./savedgames/" + self.asset_path):
             raise FileNotFoundError("save file not found")
         try:
-            with open("./savedgames/save.csv", "r") as file:
-                csv_string = file.read()
-            return csv_string.encode()
+            with open("./savedgames/" + self.asset_path, "r") as file:
+                return file.read()
         except ValueError:
             raise ValueError("couldn't import from save,"
                              + " the file might be corrupted")

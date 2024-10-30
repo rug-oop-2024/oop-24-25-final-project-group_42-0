@@ -22,9 +22,7 @@ class Dataset(Artifact):
         return dataset_2
 
     def read(self) -> pd.DataFrame:
-        bytes = super().read()
-        csv = bytes.decode()
-        # A str
+        csv = super().read()
         return pd.read_csv(io.StringIO(csv))
 
     def save(self, data: bytes) -> bytes:
