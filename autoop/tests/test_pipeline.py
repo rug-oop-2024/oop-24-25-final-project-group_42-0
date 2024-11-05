@@ -31,6 +31,8 @@ class TestPipeline(unittest.TestCase):
             metrics=[MeanSquaredError()],
             split=0.8
         )
+
+        
         self.ds_size = data.data.shape[0]
 
     def test_init(self):

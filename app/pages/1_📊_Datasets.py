@@ -11,7 +11,7 @@ path = st.selectbox("Select a dataset", options)
 automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list(type="dataset")
 data_path = Path(path)
-dataset = Dataset.from_dataframe(name = "", asset_path = data_path)
+dataset = Dataset.from_dataframe(data = Dataset.read(), name = "", asset_path = data_path)
 df = dataset.data
 print(datasets, data_path, dataset)
 st.write(df.head())

@@ -20,6 +20,14 @@ class Model(ABC, BaseModel):
     @property
     def parameters(self) -> dict:
         return deepcopy(self._parameters)
+    
+    @property
+    def observations(self) -> np.ndarray:
+        return deepcopy(self._parameters["observations"])
+    
+    @property
+    def ground_truth(self) -> np.ndarray:
+        return deepcopy(self._parameters["ground_truth"])
 
     @abstractmethod
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
