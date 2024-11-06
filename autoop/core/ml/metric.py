@@ -17,7 +17,8 @@ def get_metric(name: str) -> "Metric":
     # Factory function to get a metric by name.
     # Return a metric instance given its str name.
     if name in METRICS:
-        return Metric()
+        if "Accuracy":
+            return Accuracy()
     raise ValueError(f"{name} not in METRICS.")
     
 
@@ -67,6 +68,8 @@ class Accuracy(Metric):
         the_same_amount = sum(ground_truth==prediction)
         return the_same_amount / len(prediction)
 
+
+#Precision and Recall
 
 class MeanSquaredError(Metric):
 

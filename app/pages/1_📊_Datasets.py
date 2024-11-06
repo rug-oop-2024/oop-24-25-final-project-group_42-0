@@ -11,10 +11,19 @@ path = st.selectbox("Select a dataset", options)
 automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list(type="dataset")
 data_path = Path(path)
-dataset = Dataset.from_dataframe(data = Dataset.read(), name = "", asset_path = data_path)
-df = dataset.data
-print(datasets, data_path, dataset)
+artifact = automl.registry.get(path)
+# dataset = Dataset.from_dataframe(data = , name = "dataset", asset_path = data_path)
+# df = dataset.data
+# print(datasets, data_path, dataset)
 st.write(df.head())
+
+"""
+docstring format
+Args:
+    arguments
+Returns:
+    dictionary of metrics
+"""
 
 # Choose columns to plot
 columns = st.multiselect("Select columns to plot", dataset.columns)

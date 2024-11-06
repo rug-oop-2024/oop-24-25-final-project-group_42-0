@@ -1,11 +1,28 @@
-import base64
 import csv, re
 import os
 
-from pydantic import BaseModel, Field
-
 
 class Artifact():
+
+    """
+    "asset_path": "users/mo-assaf/models/yolov8.pth",
+    "version": "1.0.2", 
+    "data": b"binary_state_data",
+    "metadata": {
+        "experiment_id": "exp-123fbdiashdb",
+        "run_id": "run-12378yufdh89afd",
+    },
+    "type": "model:torch",
+    "tags": ["computer_vision", "object_detection"]
+    
+    name=data["name"],
+    version=data["version"],
+    asset_path=data["asset_path"],
+    tags=data["tags"],
+    metadata=data["metadata"],
+    data=self._storage.load(data["asset_path"]),
+    type=data["type"],
+    """
 
     # type: str = Field(default_factory=str)
     def __init__(self, *args, **kwargs):
@@ -23,18 +40,17 @@ class Artifact():
                 self.data = value
                 self.save(self.data)
 
-    
     def save(self, bytes: bytes) -> bytes:
         """
-        saves the game om the savedgames folder
-        If savedgames doesn't exist yet will create the folder
+        saves the dataset on the datasets folder
+        If datasets doesn't exist yet will create the folder
         """
-        if not os.path.exists("./savedgames"):
-            os.makedirs("./savedgames")
+        if not os.path.exists("./datasets"):
+            os.makedirs("./datasets")
 
         data = bytes.decode().split("\r")
 
-        with open("./savedgames/" + self.asset_path, "w") as file:
+        with open("./datasets/" + self.asset_path, "w") as file:
             file.writelines(data)
             # for line in data:
             #     csv_file.writerow([line])
@@ -42,13 +58,13 @@ class Artifact():
         return bytes
 
     def read(self) -> str:
-        """reads the game from the savedgames directory"""
-        if not os.path.exists("./savedgames/"):
-            raise FileNotFoundError("savedgames directory not found")
-        if not os.path.exists("./savedgames/" + self.asset_path):
-            raise FileNotFoundError("save file not found")
+        """reads the data from the asset_path directory"""
+        if not os.path.exists("./datasets/"):
+            raise FileNotFoundError("dataset directory not found")
+        if not os.path.exists("./datasets/" + self.asset_path):
+            raise FileNotFoundError(f"{self.asset_path} file not found")
         try:
-            with open("./savedgames/" + self.asset_path, "r") as file:
+            with open("./datasets/" + self.asset_path, "r") as file:
                 return file.read()
         except ValueError:
             raise ValueError("couldn't import from save,"

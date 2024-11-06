@@ -13,15 +13,15 @@
 from sklearn.datasets import load_iris, fetch_openml
 from autoop.core.ml.metric import Accuracy
 
-asd2 = Accuracy()
+accuracy_test = Accuracy()
 
 dataset = load_iris()
 dataset2 = fetch_openml(name="adult", version=1, parser="auto")
 
 #So I can splice "iris" but not "adult"? okay?
 
-print(asd2.evaluate(dataset.data[:, 0], dataset.data[:, 1]))
-print(asd2.evaluate(dataset2.data[:, 0], dataset2.data[:, 1]))
+print(f"iris (continuous) Accuracy: {accuracy_test.evaluate(dataset.data[:, 0], dataset.data[:, 1])}")
+print(f"adult (categorical) Accuracy: {accuracy_test.evaluate(dataset2.data[:, 0], dataset2.data[:, 1])}")
 
 # Metrics we can make ig
 # Root Mean Squared Error (RMSE): This is the square root of the Mean Squared Error
