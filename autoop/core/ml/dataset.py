@@ -28,3 +28,13 @@ class Dataset(Artifact):
     def save(self, data: bytes) -> bytes:
         # bytes = data.to_csv(index=False).encode()
         return super().save(data)
+
+    @staticmethod
+    def static_read(asset_path: str) -> pd.DataFrame:
+        csv = super().static_read(asset_path)
+        return pd.read_csv(io.StringIO(csv))
+
+    @staticmethod
+    def static_save(asset_path: str, data: bytes) -> bytes:
+        # bytes = data.to_csv(index=False).encode()
+        return super().static_save(asset_path, data)

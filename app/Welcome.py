@@ -1,9 +1,9 @@
-# import os
-# import sys
+import os
+import sys
 
-# current_dir = os.path.dirname(os.path.realpath(__file__))
-# parent_dir = os.path.dirname(current_dir)
-# sys.path.insert(0, parent_dir)
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
 from autoop.core.ml.artifact import Artifact
 import streamlit as st
 
