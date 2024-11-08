@@ -1,12 +1,16 @@
 from abc import ABC, abstractmethod
-from typing import Any
-import numpy as np
-from typechecker import Type_Checker, Raise_Type_Error
 from copy import deepcopy
+from typing import Any
+
+import numpy as np
 from pydantic import BaseModel, PrivateAttr
-from autoop.core.ml.model.model import Model
-from autoop.core.ml.model.regression.multiple_linear_regression import MultipleLinearRegression
+
 from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.regression.multiple_linear_regression import (
+    MultipleLinearRegression,
+)
+from typechecker import Raise_Type_Error, Type_Checker
 
 METRICS = [
     "mean_squared_error",
@@ -15,7 +19,8 @@ METRICS = [
     "accuracy",
     "precision",
     "recall"
-] # add the names (in strings) of the metrics you implement
+]
+
 
 def get_metric(name: str) -> "Metric":
     # Factory function to get a metric by name.
@@ -37,7 +42,6 @@ def get_metric(name: str) -> "Metric":
                 return Recall()
             case _:
                 raise ValueError(f"{name} not in METRICS.")
-        
 
 
 class Metric(Model):
@@ -49,17 +53,16 @@ class Metric(Model):
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         super().fit(observations, ground_truth)
-        
 
     def predict(self, observations: np.ndarray) -> np.ndarray:
         super().predict(observations)
-        
+
     def __str__(self):
         return f"self._parameters:\n{self._parameters}"
 
     def __call__(self, prediction: np.ndarray, ground_truth: np.ndarray):
         return self.evaluate(prediction, ground_truth)
-            
+
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray):
         if not Type_Checker(prediction, np.ndarray):
             Raise_Type_Error(prediction, np.ndarray, "prediction")
@@ -67,41 +70,41 @@ class Metric(Model):
         if not Type_Checker(ground_truth, np.ndarray):
             Raise_Type_Error(ground_truth, np.ndarray, "ground_truth")
         if len(ground_truth) != 1:
-            raise ValueError(f"Ground truth should have only one column,
-                             + instead it has {len(prediction)} columns.")
+            raise ValueError("Ground truth should have only one column,"
+                             + f"instead it has {len(prediction)} columns.")
         if len(prediction) != 1:
-            raise ValueError(f"Prediction should have only one column,
-                             + instead it has {len(prediction)} columns.")
+            raise ValueError("Prediction should have only one column,"
+                             + f"instead it has {len(prediction)} columns.")
 
 
 class Accuracy(Metric):
     _name: str = PrivateAttr("accuracy")
-    #_MLR: MultipleLinearRegression = PrivateAttr(default=MultipleLinearRegression())
 
     def __call__(self):
         pass
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
-        the_same_amount = sum(ground_truth==prediction)
+        the_same_amount = sum(ground_truth == prediction)
         return the_same_amount / len(prediction)
 
+
 class Precision(Metric):
-    
+
     _name: str = PrivateAttr("precision")
-    
+
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
 
         true_positive_dict = {}
         false_negative_dict = {}
-        
+
         for i in range(len(prediction)):
             prediction_string = prediction[i]
             ground_truth_string = ground_truth[i]
             if not Type_Checker(prediction_string, str):
                 Raise_Type_Error(ground_truth_string, str, "prediction[i]")
-                
+
             if not Type_Checker(prediction_string, str):
                 Raise_Type_Error(ground_truth_string, str, "ground_truth[i]")
 
@@ -118,15 +121,19 @@ class Precision(Metric):
             else:
                 false_negative_dict[prediction_string] += 1
 
-
         answer = 0
         for key in true_positive_dict.keys():
-            answer += true_positive_dict[key] / (true_positive_dict[key] + false_negative_dict[key])
-            
+            answer += (
+                        true_positive_dict[key] / (
+                            true_positive_dict[key] + false_negative_dict[key]
+                        )
+                       )
+
         return answer / len(true_positive_dict)
 
+
 class Recall(Metric):
-    
+
     _name: str = PrivateAttr("recall")
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
@@ -134,13 +141,13 @@ class Recall(Metric):
 
         true_positive_dict = {}
         false_positive_dict = {}
-        
+
         for i in range(len(prediction)):
             prediction_string = prediction[i]
             ground_truth_string = ground_truth[i]
             if not Type_Checker(prediction_string, str):
                 Raise_Type_Error(ground_truth_string, str, "prediction[i]")
-                
+
             if not Type_Checker(prediction_string, str):
                 Raise_Type_Error(ground_truth_string, str, "ground_truth[i]")
 
@@ -157,44 +164,47 @@ class Recall(Metric):
             else:
                 false_positive_dict[ground_truth_string] += 1
 
-
         answer = 0
         for key in true_positive_dict.keys():
-            answer += true_positive_dict[key] / (true_positive_dict[key] + false_positive_dict[key])
-            
+            answer += (
+                        true_positive_dict[key] / (
+                            true_positive_dict[key] + false_positive_dict[key]
+                        )
+                      )
+
         return answer / len(true_positive_dict)
 
 
 class MeanSquaredError(Metric):
 
     _name: str = PrivateAttr("mean_squared_error")
-    #_MLR: MultipleLinearRegression = PrivateAttr(default=MultipleLinearRegression())
 
     def __call__(self):
         pass
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
-        error = np.subtract(ground_truth, prediction) #ndarray
+        error = np.subtract(ground_truth, prediction)
         squared_error = np.square(error)
         total_error = np.sum(squared_error)
 
         return total_error / len(prediction)
-    
+
+
 class RootMeanSquaredError(MeanSquaredError):
     _name: str = PrivateAttr("root_mean_squared_error")
+
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         return np.sqrt(super().evaluate(prediction, ground_truth))
-    
+
+
 class MeanAbsolutePercentageError(Metric):
     _name: str = PrivateAttr("mean_absolute_percentage_error")
-    
+
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
-        abs_error = np.abs(np.divide(np.subtract(ground_truth, prediction), ground_truth))
-        answer  = (np.sum(abs_error) / len(ground_truth)) * 100
+        abs_error = np.abs(
+           np.divide(np.subtract(ground_truth, prediction), ground_truth)
+        )
+        answer = (np.sum(abs_error) / len(ground_truth)) * 100
         return answer
-
-# Cohen’s Kappa: This metric measures the agreement between two raters
-# (or a model and ground truth) accounting for the possibility of agreement occurring by chance.
-# It’s useful for evaluating classification tasks where chance agreement is possible.

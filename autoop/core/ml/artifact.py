@@ -1,12 +1,13 @@
-import csv, re
+import csv
 import os
+import re
 
 
 class Artifact():
 
     """
     "asset_path": "users/mo-assaf/models/yolov8.pth",
-    "version": "1.0.2", 
+    "version": "1.0.2",
     "data": b"binary_state_data",
     "metadata": {
         "experiment_id": "exp-123fbdiashdb",
@@ -14,7 +15,7 @@ class Artifact():
     },
     "type": "model:torch",
     "tags": ["computer_vision", "object_detection"]
-    
+
     name=data["name"],
     version=data["version"],
     asset_path=data["asset_path"],
@@ -56,7 +57,7 @@ class Artifact():
             #     csv_file.writerow([line])
             # file.write(encoded_stuff, indent=4)
         return bytes
-    
+
     @staticmethod
     def static_save(asset_path: str, bytes: bytes) -> bytes:
         """
@@ -87,7 +88,7 @@ class Artifact():
         except ValueError:
             raise ValueError("couldn't import from save,"
                              + " the file might be corrupted")
-    
+
     @staticmethod
     def static_read(asset_path: str) -> str:
         """reads the data from the asset_path directory"""

@@ -13,7 +13,9 @@ class RandomForestClassifier(Model):
     Lasso function from scikit-learn.linear_model.Lasso
     """
 
-    _instance_of_random_forest_classifier: ensemble.RandomForestClassifier = PrivateAttr(default=ensemble.RandomForestClassifier)
+    _instance_of_random_forest_classifier: ensemble.RandomForestClassifier = (
+        PrivateAttr(default=ensemble.RandomForestClassifier)
+    )
 
     @property
     def random_forest_classifier(self):

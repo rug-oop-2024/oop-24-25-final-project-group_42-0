@@ -13,7 +13,9 @@ class RandomForestRegressor(Model):
     Lasso function from scikit-learn.linear_model.Lasso
     """
 
-    _instance_of_random_forest_regressor: ensemble.RandomForestRegressor = PrivateAttr(default=ensemble.RandomForestRegressor)
+    _instance_of_random_forest_regressor: ensemble.RandomForestRegressor = (
+        PrivateAttr(default=ensemble.RandomForestRegressor)
+    )
 
     @property
     def random_forest_regressor(self):

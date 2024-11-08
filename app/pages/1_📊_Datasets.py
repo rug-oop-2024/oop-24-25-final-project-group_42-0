@@ -1,30 +1,25 @@
-import streamlit as st
+from glob import glob
+from pathlib import Path
+
 import pandas as pd
+import streamlit as st
+
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
-from pathlib import Path
-from glob import glob
-
 
 options = glob("**/*.csv", recursive=True)
 
 
 path = st.selectbox("Select a dataset", options)
 automl = AutoMLSystem.get_instance()
-datasets = automl.registry.list(type = "dataset")
+datasets = automl.registry.list(type="dataset")
 data_path = Path(path)
 # automl.registry.register()
 # print(path)
 # print(data_path)
-st.write(f"datasets: {datasets}\noptions: {options}\nregistry: {automl.registry.__dict__}")
+st.write(f"datasets: {datasets}\noptions: {options}\n"
+         + f"registry: {automl.registry.__dict__}")
 st.write(f"\nautoml._storage: {automl._storage.__dict__}")
-#  entries = self.
-# artifact = automl.registry.get(path)
-# print(artifact.__dict__)
-# dataset = Dataset(name = "dataset", asset_path = path) #= Dataset.from_dataframe(data = Dataset.read(data_path), name = "dataset", asset_path = data_path)
-# dataset.data = dataset.read()
-# df = dataset.data
-# st.write(df.head())
 
 """
 docstring format

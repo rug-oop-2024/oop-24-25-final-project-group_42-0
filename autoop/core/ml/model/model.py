@@ -1,30 +1,31 @@
 
 from abc import ABC, abstractmethod
-from autoop.core.ml.artifact import Artifact
-import numpy as np
 from copy import deepcopy
 from typing import Literal
+
+import numpy as np
 from pydantic import BaseModel, PrivateAttr
 
-    
+from autoop.core.ml.artifact import Artifact
+
+
 class Model(ABC, BaseModel):
     """
     Base class for all metrics.
+    input: ground truth and prediction
+    return: a real number
     """
-    # your code here
-    # remember: metrics take ground truth and prediction as input and return a real number
 
-    # add here concrete implementations of the Metric class
     _parameters: dict = PrivateAttr(default=dict())
 
     @property
     def parameters(self) -> dict:
         return deepcopy(self._parameters)
-    
+
     @property
     def observations(self) -> np.ndarray:
         return deepcopy(self._parameters["observations"])
-    
+
     @property
     def ground_truth(self) -> np.ndarray:
         return deepcopy(self._parameters["ground_truth"])
