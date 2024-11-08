@@ -28,9 +28,12 @@ class Pipeline():
         self._metrics = metrics
         self._artifacts = {}
         self._split = split
+        self._training_metrics_results = []
+        self._evaluation_metrics_results = []
         if target_feature.type == "categorical" and model.type != "classification":
             raise ValueError(
-                "Model type must be classification for categorical target feature")
+                "Model type must be"
+                + "classification for categorical target feature")
         if target_feature.type == "continuous" and model.type != "regression":
             raise ValueError(
                 "Model type must be regression for continuous target feature")
@@ -111,15 +114,20 @@ Pipeline(
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate(self):
-        X = self._compact_vectors(self._test_X)
-        Y = self._test_y
-        self._metrics_results = []
         predictions = self._model.predict(X)
         for metric in self._metrics:
             result = metric.evaluate(predictions, Y)
-            self._metrics_results.append((metric, result))
+            self._training_metrics_results.append((metric, result))
+
+    def _evaluate(self):
+        X = self._compact_vectors(self._test_X)
+        Y = self._test_y
+        predictions = self._model.predict(X)
+        for metric in self._metrics:
+            result = metric.evaluate(predictions, Y)
+            self._evaluation_metrics_results.append((metric, result))
         self._predictions = predictions
+
 
     def execute(self):
         self._preprocess_features()
@@ -127,6 +135,7 @@ Pipeline(
         self._train()
         self._evaluate()
         return {
-            "metrics": self._metrics_results,
+            "training_metrics": self._training_metrics_results,
+            "evaluation_metrics": self._evaluation_metrics_results,
             "predictions": self._predictions,
         }

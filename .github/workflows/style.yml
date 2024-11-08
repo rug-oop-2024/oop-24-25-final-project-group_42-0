@@ -25,7 +25,7 @@ jobs:
 
       - name: Install flake8 and plugins
         run: |
-          pip install flake8 flake8-docstrings flake8-annotations
+          pip3 install flake8 flake8-docstrings flake8-annotations
 
       - name: Configure Flake8
         run: |

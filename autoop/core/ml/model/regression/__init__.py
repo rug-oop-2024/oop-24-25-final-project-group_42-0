@@ -1,4 +1,3 @@
-
-from autoop.core.ml.model.regression.multiple_linear_regression import (
-    MultipleLinearRegression,
-)
+from .multiple_linear_regression import MultipleLinearRegression
+from .random_forest_regressor_wrapper import RandomForestRegressor
+from .sklearn_wrap import Lasso

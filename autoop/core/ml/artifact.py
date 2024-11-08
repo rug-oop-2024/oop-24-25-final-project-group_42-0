@@ -15,31 +15,33 @@ class Artifact():
     },
     "type": "model:torch",
     "tags": ["computer_vision", "object_detection"]
-
-    name=data["name"],
-    version=data["version"],
-    asset_path=data["asset_path"],
-    tags=data["tags"],
-    metadata=data["metadata"],
-    data=self._storage.load(data["asset_path"]),
-    type=data["type"],
     """
 
     # type: str = Field(default_factory=str)
-    def __init__(self, *args, **kwargs):
-        if "type" in kwargs.keys():
-            self.type = kwargs["type"]
+    def __init__(self, **kwargs):
+        self.name: str = kwargs["name"]
+        self.version: str = kwargs["version"]
+        self.asset_path: str = kwargs["asset_path"]
+        self.tags: list = kwargs["tags"]
+        self.metadata: dict = kwargs["metadata"]
+        self.data = kwargs["data"]
+        self.type: str = kwargs["type"]
 
-        for key, value in kwargs.items():
-            if key == "name":
-                self.name = value
-            elif key == "type":
-                self.type = value
-            elif key == "asset_path":
-                self.asset_path = value
-            elif key == "data":
-                self.data = value
-                self.save(self.data)
+        self.save(self.data)
+
+
+        # for key, value in kwargs.items():
+        #     if key == "name":
+        #         self.name = value
+        #     elif key == "type":
+        #         self.type = value
+        #     elif key == "asset_path":
+        #         self.asset_path = value
+        #     elif key == "data":
+        #         self.data = value
+        #         self.save(self.data)
+        #     elif key == "version":
+        #         self.version = value
 
     def save(self, bytes: bytes) -> bytes:
         """
@@ -94,10 +96,10 @@ class Artifact():
         """reads the data from the asset_path directory"""
         if not os.path.exists("./datasets/"):
             raise FileNotFoundError("dataset directory not found")
-        if not os.path.exists("./datasets/" + asset_path):
+        if not os.path.exists(asset_path):
             raise FileNotFoundError(f"{asset_path} file not found")
         try:
-            with open("./datasets/" + asset_path, "r") as file:
+            with open(asset_path, "r") as file:
                 return file.read()
         except ValueError:
             raise ValueError("couldn't import from save,"

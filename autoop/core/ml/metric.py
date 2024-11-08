@@ -25,9 +25,9 @@ METRICS = [
 def get_metric(name: str) -> "Metric":
     # Factory function to get a metric by name.
     # Return a metric instance given its str name.
-    lower_name = name.lower()
-    if lower_name in METRICS:
-        match lower_name:
+    lower_case_name = name.lower()
+    if lower_case_name in METRICS:
+        match lower_case_name:
             case "mean_squared_error":
                 return MeanSquaredError()
             case "mean_absolute_percentage_error":
@@ -41,7 +41,9 @@ def get_metric(name: str) -> "Metric":
             case "recall":
                 return Recall()
             case _:
-                raise ValueError(f"{name} not in METRICS.")
+                raise NotImplementedError(f"We didn't implement {lower_case_name} in get_model yet, sorry")
+    else:
+        raise ValueError(f"{lower_case_name} not in METRICS.")
 
 
 class Metric(Model):

@@ -3,23 +3,41 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import io
 
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.artifact import Artifact
+
+class Management():
+
+    def create(self, name: str, asset_path: str):
+        # csv = Artifact.static_read("./datasets/adult.csv")
+        with open("./datasets/adult.csv", "r") as file:
+                csv = file.read()
+        df = pd.read_csv(io.StringIO(csv))
+
+        dataset = Dataset.from_dataframe(
+            name = name,
+            asset_path = "adult.csv",
+            data = df,
+        )
+        st.write(dataset.version)
+        # automl.registry.register(dataset)
 
 options = glob("**/*.csv", recursive=True)
 
 
 path = st.selectbox("Select a dataset", options)
 automl = AutoMLSystem.get_instance()
+
+testing_something = Management()
+
+testing_something.create("test", path)
+
 datasets = automl.registry.list(type="dataset")
-data_path = Path(path)
-# automl.registry.register()
-# print(path)
-# print(data_path)
-st.write(f"datasets: {datasets}\noptions: {options}\n"
-         + f"registry: {automl.registry.__dict__}")
-st.write(f"\nautoml._storage: {automl._storage.__dict__}")
+
+st.write(f"datasets: {datasets}")
 
 """
 docstring format

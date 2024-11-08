@@ -160,8 +160,8 @@ If you did not implement the feature
 | `ML/metric`                           | NF           | Both                 |    X    | |
 | `ML/metric/extensions`                | FN           | Both                 |    X    | |
 | `ML/model`                            | NF           | Both                 |    X    | |
-| `ML/model/extensions`                 | FN           | Both                 |         | |
-| `ML/pipeline/evaluation`              | FN           |                      |         | |
+| `ML/model/extensions`                 | FN           | Both                 |    X    | |
+| `ML/pipeline/evaluation`              | FN           | Both                 |    X    | |
 | `ST/page/datasets`                    | NF           |                      |         | |
 | `ST/datasets/management/create`       | FN           |                      |         | |
 | `ST/datasets/management/save`         | FN           |                      |         | |

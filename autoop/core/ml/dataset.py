@@ -32,7 +32,7 @@ class Dataset(Artifact):
 
     @staticmethod
     def static_read(asset_path: str) -> pd.DataFrame:
-        csv = super().static_read(asset_path)
+        csv = Artifact().static_read(asset_path)
         return pd.read_csv(io.StringIO(csv))
 
     @staticmethod

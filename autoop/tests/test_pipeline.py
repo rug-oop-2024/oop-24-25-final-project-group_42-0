@@ -62,5 +62,5 @@ class TestPipeline(unittest.TestCase):
         self.pipeline._train()
         self.pipeline._evaluate()
         self.assertIsNotNone(self.pipeline._predictions)
-        self.assertIsNotNone(self.pipeline._metrics_results)
-        self.assertEqual(len(self.pipeline._metrics_results), 2)
+        self.assertIsNotNone(self.pipeline._evaluation_metrics_results)
+        self.assertEqual(len(self.pipeline._evaluation_metrics_results), 2)

@@ -1,0 +1,1 @@
+Welcome.py is where streamlit is run, using python -m streamlit run app/Welcome.py
