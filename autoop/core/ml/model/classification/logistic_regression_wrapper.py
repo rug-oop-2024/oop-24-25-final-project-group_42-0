@@ -13,7 +13,9 @@ class LogisticRegressionModel(Model):
     Logisticregression function from scikit-learn.linear_model
     """
 
-    _instance_of_logistic_regression: sk.LogisticRegression = PrivateAttr(default=sk.LogisticRegression())
+    _instance_of_logistic_regression: sk.LogisticRegression = (
+        PrivateAttr(default=sk.LogisticRegression())
+    )
 
     @property
     def logistic_regression(self):
