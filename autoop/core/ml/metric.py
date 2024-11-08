@@ -1,15 +1,6 @@
 from abc import ABC, abstractmethod
-from copy import deepcopy
-from typing import Any
-
 import numpy as np
 from pydantic import BaseModel, PrivateAttr
-
-from autoop.core.ml.dataset import Dataset
-from autoop.core.ml.model.model import Model
-from autoop.core.ml.model.regression.multiple_linear_regression import (
-    MultipleLinearRegression,
-)
 from typechecker import Raise_Type_Error, Type_Checker
 
 METRICS = [
@@ -23,8 +14,6 @@ METRICS = [
 
 
 def get_metric(name: str) -> "Metric":
-    # Factory function to get a metric by name.
-    # Return a metric instance given its str name.
     lower_case_name = name.lower()
     if lower_case_name in METRICS:
         match lower_case_name:
@@ -46,44 +35,47 @@ def get_metric(name: str) -> "Metric":
         raise ValueError(f"{lower_case_name} not in METRICS.")
 
 
-class Metric(Model):
+class Metric(ABC, BaseModel):
     """
     Base class for all metrics.
     """
 
-    # _metrics: list[Model] = PrivateAttr(default=list())
+    _name: str = PrivateAttr(default="metric_base_class")
 
-    def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
-        super().fit(observations, ground_truth)
+    _result: float = PrivateAttr(default=float)
 
-    def predict(self, observations: np.ndarray) -> np.ndarray:
-        super().predict(observations)
+    _compared_items: dict = PrivateAttr(default=dict())
 
     def __str__(self):
-        return f"self._parameters:\n{self._parameters}"
+        return f"self.compared_items:\n{self._compared_items}\nresult of {self._name}: {self._result}"
+        #######################################################################################Don't forget about this, you gotta talk about a better name with Oscar cuz _compared_items is kinda iffy
+        #On purpose flake8 error so that even a dumbass like me can remember this
 
     def __call__(self, prediction: np.ndarray, ground_truth: np.ndarray):
         return self.evaluate(prediction, ground_truth)
 
+    @abstractmethod
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray):
         if not Type_Checker(prediction, np.ndarray):
             Raise_Type_Error(prediction, np.ndarray, "prediction")
 
         if not Type_Checker(ground_truth, np.ndarray):
             Raise_Type_Error(ground_truth, np.ndarray, "ground_truth")
-        if len(ground_truth) != 1:
-            raise ValueError("Ground truth should have only one column,"
-                             + f"instead it has {len(prediction)} columns.")
-        if len(prediction) != 1:
-            raise ValueError("Prediction should have only one column,"
-                             + f"instead it has {len(prediction)} columns.")
+        # if len(ground_truth.shape) != 1: # tuple (rows, 1) is length 2 but only one column and as such should be accepted
+        #     raise ValueError("Ground truth should have only one column,"
+        #                      + f"instead it has {len(ground_truth.shape)} columns.")
+        # if len(prediction.shape) != 1:
+        #     raise ValueError("Prediction should have only one column,"
+        #                      + f"instead it has {len(prediction.shape)} columns.")
+        self._compared_items = {
+                                "prediction": prediction,
+                                "ground_truth": ground_truth
+                                }
 
 
 class Accuracy(Metric):
-    _name: str = PrivateAttr("accuracy")
 
-    def __call__(self):
-        pass
+    _name: str = PrivateAttr("accuracy")
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
@@ -181,9 +173,6 @@ class MeanSquaredError(Metric):
 
     _name: str = PrivateAttr("mean_squared_error")
 
-    def __call__(self):
-        pass
-
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
         error = np.subtract(ground_truth, prediction)
@@ -194,19 +183,21 @@ class MeanSquaredError(Metric):
 
 
 class RootMeanSquaredError(MeanSquaredError):
+
     _name: str = PrivateAttr("root_mean_squared_error")
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
-        return np.sqrt(super().evaluate(prediction, ground_truth))
+        mean_squared_error = super().evaluate(prediction, ground_truth)
+        return np.sqrt(mean_squared_error)
 
 
 class MeanAbsolutePercentageError(Metric):
+
     _name: str = PrivateAttr("mean_absolute_percentage_error")
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         super().evaluate(prediction, ground_truth)
-        abs_error = np.abs(
-           np.divide(np.subtract(ground_truth, prediction), ground_truth)
-        )
-        answer = (np.sum(abs_error) / len(ground_truth)) * 100
+        error = np.divide(np.subtract(ground_truth, prediction), ground_truth)
+        abs_error = np.abs(error)
+        answer = np.sum(abs_error) / len(ground_truth) * 100
         return answer

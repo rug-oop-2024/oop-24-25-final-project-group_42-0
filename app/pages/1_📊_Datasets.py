@@ -13,16 +13,16 @@ class Management():
 
     def create(self, name: str, asset_path: str):
         # csv = Artifact.static_read("./datasets/adult.csv")
-        with open("./datasets/adult.csv", "r") as file:
+        with open("./" + asset_path, "r") as file:
                 csv = file.read()
         df = pd.read_csv(io.StringIO(csv))
-
+        
         dataset = Dataset.from_dataframe(
             name = name,
-            asset_path = "adult.csv",
+            asset_path = asset_path,
             data = df,
         )
-        st.write(dataset.version)
+        st.write(dataset._asset_path)
         # automl.registry.register(dataset)
 
 options = glob("**/*.csv", recursive=True)

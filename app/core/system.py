@@ -19,7 +19,7 @@ class ArtifactRegistry():
         # save the metadata in the database
         entry = {
             "name": artifact.name,
-            "version": artifact.version,
+            "version": artifact._version,
             "asset_path": artifact.asset_path,
             "tags": artifact.tags,
             "metadata": artifact.metadata,

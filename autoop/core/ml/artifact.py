@@ -18,30 +18,18 @@ class Artifact():
     """
 
     # type: str = Field(default_factory=str)
-    def __init__(self, **kwargs):
-        self.name: str = kwargs["name"]
-        self.version: str = kwargs["version"]
-        self.asset_path: str = kwargs["asset_path"]
-        self.tags: list = kwargs["tags"]
-        self.metadata: dict = kwargs["metadata"]
-        self.data = kwargs["data"]
-        self.type: str = kwargs["type"]
+    def __init__(self,
+                 type: str, name: str, data, asset_path: str, tags: list = [],
+                 metadata: dict = {}, version: str = "1.0.0"):
+        self._name = name
+        self._type = type
+        self._asset_path = asset_path
+        self._data = data
+        self._tags = tags
+        self._metadata = metadata
+        self._version = version
 
-        self.save(self.data)
-
-
-        # for key, value in kwargs.items():
-        #     if key == "name":
-        #         self.name = value
-        #     elif key == "type":
-        #         self.type = value
-        #     elif key == "asset_path":
-        #         self.asset_path = value
-        #     elif key == "data":
-        #         self.data = value
-        #         self.save(self.data)
-        #     elif key == "version":
-        #         self.version = value
+        self.save(self._data)
 
     def save(self, bytes: bytes) -> bytes:
         """
@@ -53,7 +41,7 @@ class Artifact():
 
         data = bytes.decode().split("\r")
 
-        with open("./datasets/" + self.asset_path, "w") as file:
+        with open("./datasets/" + self._asset_path, "w") as file:
             file.writelines(data)
             # for line in data:
             #     csv_file.writerow([line])
@@ -82,10 +70,10 @@ class Artifact():
         """reads the data from the asset_path directory"""
         if not os.path.exists("./datasets/"):
             raise FileNotFoundError("dataset directory not found")
-        if not os.path.exists("./datasets/" + self.asset_path):
-            raise FileNotFoundError(f"{self.asset_path} file not found")
+        if not os.path.exists("./datasets/" + self._asset_path):
+            raise FileNotFoundError(f"{self._asset_path} file not found")
         try:
-            with open("./datasets/" + self.asset_path, "r") as file:
+            with open("./datasets/" + self._asset_path, "r") as file:
                 return file.read()
         except ValueError:
             raise ValueError("couldn't import from save,"

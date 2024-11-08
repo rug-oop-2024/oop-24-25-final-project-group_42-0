@@ -31,7 +31,7 @@ class TestFeatures(unittest.TestCase):
         self.assertEqual(len(features), 4)
         for feature in features:
             self.assertIsInstance(feature, Feature)
-            self.assertEqual(feature.name in iris.feature_names, True)
+            self.assertEqual(feature._name in iris.feature_names, True)
             self.assertEqual(feature.type, "numerical")
 
     def test_detect_features_with_categories(self):
@@ -67,11 +67,11 @@ class TestFeatures(unittest.TestCase):
         ]
         for feature in features:
             self.assertIsInstance(feature, Feature)
-            self.assertEqual(feature.name in data.feature_names, True)
-        for detected_feature in filter(lambda x: x.name in numerical_columns,
+            self.assertEqual(feature._name in data.feature_names, True)
+        for detected_feature in filter(lambda x: x._name in numerical_columns,
                                        features):
             self.assertEqual(detected_feature.type, "numerical")
-        for detected_feature in filter(lambda x: x.name in categorical_columns,
+        for detected_feature in filter(lambda x: x._name in categorical_columns,
                                        features):
             self.assertEqual(detected_feature.type, "categorical")
 

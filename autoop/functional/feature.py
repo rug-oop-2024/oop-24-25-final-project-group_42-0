@@ -1,6 +1,4 @@
-
 from typing import List
-
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 
@@ -19,7 +17,8 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
 
     for label, content in pandaframe.items():
         datatype = content.dtype.name
-        feature = Feature(label)  # , content)
+        feature = Feature(label)
+        feature.data = content.values
         if datatype == "object":
             feature.type = "categorical"
             featurelist.append(feature)

@@ -28,7 +28,7 @@ class TestPipeline(unittest.TestCase):
         self.pipeline = Pipeline(
             dataset=self.dataset,
             model=MultipleLinearRegression(),
-            input_features=list(filter(lambda x: x.name != "age",
+            input_features=list(filter(lambda x: x._name != "age",
                                        self.features)),
             target_feature=Feature(name="age", type="numerical"),
             metrics=[MeanSquaredError(), Accuracy()],
