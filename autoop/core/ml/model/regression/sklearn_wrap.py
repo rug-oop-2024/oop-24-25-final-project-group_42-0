@@ -4,10 +4,10 @@ import numpy as np
 import sklearn.linear_model as linear
 from pydantic import PrivateAttr
 
-from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.model import RegressionModel
 
 
-class Lasso(Model):
+class Lasso(RegressionModel):
     """
     A class that acts as a wrapper for the
     Lasso function from scikit-learn.linear_model.Lasso

@@ -30,7 +30,7 @@ class TestPipeline(unittest.TestCase):
             model=MultipleLinearRegression(),
             input_features=list(filter(lambda x: x._name != "age",
                                        self.features)),
-            target_feature=Feature(name="age", type="numerical"),
+            target_feature=Feature(name="age", type="continuous"),
             metrics=[MeanSquaredError(), Accuracy()],
             split=0.8
         )

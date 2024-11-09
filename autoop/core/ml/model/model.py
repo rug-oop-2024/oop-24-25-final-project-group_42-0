@@ -16,6 +16,8 @@ class Model(ABC, BaseModel):
     return: a real number
     """
 
+    _type: str = PrivateAttr(default="Undefined")
+
     _parameters: dict = PrivateAttr(default=dict())
 
     @property
@@ -29,6 +31,10 @@ class Model(ABC, BaseModel):
     @property
     def ground_truth(self) -> np.ndarray:
         return deepcopy(self._parameters["ground_truth"])
+
+    @property
+    def type(self):
+        return self._type
 
     @abstractmethod
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -58,3 +64,12 @@ class Model(ABC, BaseModel):
                 "predict doesn't accept observations of type:"
                 + f"{type(observations)}"
             )
+
+class ClassificationModel(Model):
+    
+    _type: str = PrivateAttr("classification")
+
+
+class RegressionModel(Model):
+    
+    _type: str = PrivateAttr("regression")

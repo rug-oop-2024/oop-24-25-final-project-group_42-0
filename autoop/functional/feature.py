@@ -18,12 +18,11 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
     for label, content in pandaframe.items():
         datatype = content.dtype.name
         feature = Feature(label)
-        feature.data = content.values
         if datatype == "object":
             feature.type = "categorical"
             featurelist.append(feature)
         else:
-            feature.type = "numerical"
+            feature.type = "continuous"
             featurelist.append(feature)
 
     return featurelist

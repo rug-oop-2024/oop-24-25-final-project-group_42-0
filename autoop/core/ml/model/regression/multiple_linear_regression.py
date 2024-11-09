@@ -12,10 +12,10 @@ from copy import deepcopy
 import numpy as np
 from pydantic import PrivateAttr
 
-from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.model import RegressionModel
 
 
-class MultipleLinearRegression(Model):
+class MultipleLinearRegression(RegressionModel):
     """A model for multiple linear regression."""
 
     _slope: np.ndarray = PrivateAttr(default=np.ndarray)

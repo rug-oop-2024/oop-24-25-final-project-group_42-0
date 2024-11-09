@@ -55,7 +55,8 @@ Pipeline(
 
     @property
     def artifacts(self) -> List[Artifact]:
-        """Used to get the artifacts generated during the pipeline execution to be saved
+        """
+        Used to get the artifacts generated during the pipeline execution to be saved
         """
         artifacts = []
         for name, artifact in self._artifacts.items():

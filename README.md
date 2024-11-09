@@ -162,17 +162,17 @@ If you did not implement the feature
 | `ML/model`                            | NF           | Both                 |    X    | |
 | `ML/model/extensions`                 | FN           | Both                 |    X    | |
 | `ML/pipeline/evaluation`              | FN           | Both                 |    X    | |
-| `ST/page/datasets`                    | NF           |                      |         | |
-| `ST/datasets/management/create`       | FN           |                      |         | |
-| `ST/datasets/management/save`         | FN           |                      |         | |
-| `ST/page/modelling`                   | NF           |                      |         | |
-| `ST/modelling/datasets/list`          | FN           |                      |         | |
-| `ST/modelling/datasets/features`      | FN           |                      |         | |
-| `ST/modelling/models`                 | FN           |                      |         | |
-| `ST/modelling/pipeline/split`         | FN           |                      |         | |
-| `ST/modelling/pipeline/metrics`       | FN           |                      |         | |
-| `ST/modelling/pipeline/summary`       | FN           |                      |         | |
-| `ST/modelling/pipeline/train`         | FN           |                      |         | |
+| `ST/page/datasets`                    | NF           | Both                 |    X    | |
+| `ST/datasets/management/create`       | FN           | Both                 |    X    | |
+| `ST/datasets/management/save`         | FN           | Both                 |    X    | |
+| `ST/page/modelling`                   | NF           | Both                 |    X    | |
+| `ST/modelling/datasets/list`          | FN           | Both                 |    X    | |
+| `ST/modelling/datasets/features`      | FN           | Both                 |    X    | |
+| `ST/modelling/models`                 | FN           | Both                 |    X    | |
+| `ST/modelling/pipeline/split`         | FN           | Both                 |    X    | |
+| `ST/modelling/pipeline/metrics`       | FN           | Both                 |    X    | |
+| `ST/modelling/pipeline/summary`       | FN           | Both                 |    X    | |
+| `ST/modelling/pipeline/train`         | FN           | Both                 |    X    | |
 | `ST/modelling/pipeline/save`          | FN           |                      |         | |
 | `ST/page/deployment`                  | FN           |                      |         | |
 | `ST/deployment/load`                  | FN           |                      |         | |

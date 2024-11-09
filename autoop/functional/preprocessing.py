@@ -29,7 +29,7 @@ def preprocess_features(
             artifact = {"type": "OneHotEncoder",
                         "encoder": encoder.get_params()}
             results.append((feature.name, data, artifact))
-        if feature.type == "numerical":
+        if feature.type == "continuous":
             scaler = StandardScaler()
             data = scaler.fit_transform(
                 raw[feature.name].values.reshape(-1, 1))

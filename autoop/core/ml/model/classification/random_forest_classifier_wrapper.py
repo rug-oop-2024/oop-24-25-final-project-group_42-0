@@ -4,13 +4,13 @@ import numpy as np
 import sklearn.ensemble as ensemble
 from pydantic import PrivateAttr
 
-from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.model import ClassificationModel
 
 
-class RandomForestClassifier(Model):
+class RandomForestClassifier(ClassificationModel):
     """
     A class that acts as a wrapper for the
-    Lasso function from scikit-learn.linear_model.Lasso
+    ensemble from scikit-learn.ensemble
     """
 
     _instance_of_random_forest_classifier: ensemble.RandomForestClassifier = (

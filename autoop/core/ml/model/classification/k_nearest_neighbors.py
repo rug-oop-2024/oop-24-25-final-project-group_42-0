@@ -8,14 +8,14 @@ Description: a file for the k nearest neighbour;
 from collections import Counter
 
 import numpy as np
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 
-from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.model import ClassificationModel
 
 AMOUNT_OF_NEIGHBOURS: int = 3
 
 
-class KNearestNeighbors(Model):
+class KNearestNeighbors(ClassificationModel):
     """K-Nearest Neighbors Algorithm"""
 
     k: int = Field(title="Number of neighbors", default=AMOUNT_OF_NEIGHBOURS)

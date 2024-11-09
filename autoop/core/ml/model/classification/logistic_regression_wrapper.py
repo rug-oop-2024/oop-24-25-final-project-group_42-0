@@ -4,10 +4,10 @@ import numpy as np
 import sklearn.linear_model as sk
 from pydantic import PrivateAttr
 
-from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.model import ClassificationModel
 
 
-class LogisticRegressionModel(Model):
+class LogisticRegressionModel(ClassificationModel):
     """
     A class that acts as a wrapper for the
     Logisticregression function from scikit-learn.linear_model

@@ -25,6 +25,7 @@ class ArtifactRegistry():
             "metadata": artifact.metadata,
             "type": artifact.type,
         }
+        
         self._database.set("artifacts", artifact.id, entry)
 
     def list(self, type: str = None) -> List[Artifact]:
