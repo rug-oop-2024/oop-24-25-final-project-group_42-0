@@ -1,12 +1,9 @@
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Literal
 
 import numpy as np
 from pydantic import BaseModel, PrivateAttr
-
-from autoop.core.ml.artifact import Artifact
 
 
 class Model(ABC, BaseModel):
@@ -65,11 +62,12 @@ class Model(ABC, BaseModel):
                 + f"{type(observations)}"
             )
 
+
 class ClassificationModel(Model):
-    
+
     _type: str = PrivateAttr("classification")
 
 
 class RegressionModel(Model):
-    
+
     _type: str = PrivateAttr("regression")

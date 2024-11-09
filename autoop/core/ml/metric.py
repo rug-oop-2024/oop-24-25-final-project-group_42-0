@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
+from copy import deepcopy
+
 import numpy as np
 from pydantic import BaseModel, PrivateAttr
+
 from typechecker import Raise_Type_Error, Type_Checker
-from copy import deepcopy
 
 CONTINUOUS_METRICS = [
     "mean_squared_error",
@@ -28,7 +30,8 @@ def get_metric(name: str) -> "Metric":
             case "root_mean_squared_error":
                 return RootMeanSquaredError()
             case _:
-                raise NotImplementedError(f"We didn't implement {lower_case_name} in get_model yet, sorry")
+                raise NotImplementedError(f"We didn't implement {lower_case_name}"
+                                          + " in get_model yet, sorry")
     elif lower_case_name in CATEGORICAL_METRICS:
         match lower_case_name:
             case "accuracy":
@@ -38,7 +41,8 @@ def get_metric(name: str) -> "Metric":
             case "recall":
                 return Recall()
             case _:
-                    raise NotImplementedError(f"We didn't implement {lower_case_name} in get_model yet, sorry")
+                raise NotImplementedError(f"We didn't implement {lower_case_name}"
+                                          + " in get_model yet, sorry")
     else:
         raise ValueError(f"{lower_case_name} not in METRICS.")
 
@@ -61,7 +65,9 @@ class Metric(ABC, BaseModel):
         return deepcopy(self._type)
 
     def __str__(self):
-        return f"self.compared_items: {self._data}, result of {self._name}: {self._result}"
+        returnstr = (f"self.compared_items: {self._data},"
+                     + f" result of {self._name}: {self._result}")
+        return returnstr
 
     def __call__(self, prediction: np.ndarray, ground_truth: np.ndarray):
         return self.evaluate(prediction, ground_truth)
@@ -69,19 +75,17 @@ class Metric(ABC, BaseModel):
     @abstractmethod
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray):
         """
-        Abstractmethod checking for errors
+        abstract method of evaluate, checks for common errors
+        and saves the data to self._data.
+        Args:
+            prediction (np.ndarray): prediction of the model
+            ground_truth (np.ndarray): the actual data points
         """
         if not Type_Checker(prediction, np.ndarray):
             Raise_Type_Error(prediction, np.ndarray, "prediction")
 
         if not Type_Checker(ground_truth, np.ndarray):
             Raise_Type_Error(ground_truth, np.ndarray, "ground_truth")
-        # if len(ground_truth.shape) != 1: # tuple (rows, 1) is length 2 but only one column and as such should be accepted tuple(rows) tuple(rows, 1)
-        #     raise ValueError("Ground truth should have only one column,"
-        #                      + f"instead it has {len(ground_truth.shape)} columns.")
-        # if len(prediction.shape) != 1:
-        #     raise ValueError("Prediction should have only one column,"
-        #                      + f"instead it has {len(prediction.shape)} columns.")
         self._data = {
                                 "prediction": prediction,
                                 "ground_truth": ground_truth
@@ -104,7 +108,7 @@ class Accuracy(CategoricalMetric):
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        evaluates the Accuracy metric. 
+        evaluates the Accuracy metric.
         """
         super().evaluate(prediction, ground_truth)
         the_same_amount = sum(ground_truth == prediction)
@@ -225,7 +229,12 @@ class RootMeanSquaredError(MeanSquaredError):
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        evaluates the Root mean squared error metric.
+        evaluates the root mean squared error
+        Args:
+            prediction (np.ndarray):prediction of the model
+            ground_truth (np.ndarray): the actual data points
+        Returns:
+            answer (float): Percentage of error, the lower the better
         """
         mean_squared_error = super().evaluate(prediction, ground_truth)
         return np.sqrt(mean_squared_error)
@@ -237,11 +246,10 @@ class MeanAbsolutePercentageError(ContinuousMetric):
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        evaluates the Mean absolute percantage error metric, this returns a percentage relative to th. 
-        
+        evaluates the mean absolute percantage error
+        Args:
+            prediction (np.ndarray):prediction of the model
+            ground_truth (np.ndarray): the actual data points
+        Returns:
+            answer (float): Percentage of error, the lower the better
         """
-        super().evaluate(prediction, ground_truth)
-        error = np.divide(np.subtract(ground_truth, prediction), ground_truth)
-        abs_error = np.abs(error)
-        answer = np.sum(abs_error) / len(ground_truth) * 100
-        return answer

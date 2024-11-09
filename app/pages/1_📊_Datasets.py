@@ -1,12 +1,15 @@
+import io
+import os
 from glob import glob
 from pathlib import Path
-import io
+
 import pandas as pd
 import streamlit as st
+
 from app.core.system import AutoMLSystem
-from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.artifact import Artifact
-import os
+from autoop.core.ml.dataset import Dataset
+
 
 class Management():
 
@@ -17,9 +20,9 @@ class Management():
 
         name_and_asset_path = full_asset_path.split("\\")[-1:][0]
         dataset = Dataset.from_dataframe(
-            name = name_and_asset_path,
-            asset_path = name_and_asset_path,
-            data = df,
+            name=name_and_asset_path,
+            asset_path=name_and_asset_path,
+            data=df,
         )
         self.save(dataset)
         return dataset
@@ -48,9 +51,9 @@ if uploaded_file is not None and uploaded_file.type == "text/csv":
     df = pd.read_csv(io.StringIO(uploaded_file.getvalue().decode()))
     dataset = Dataset.from_dataframe(df, uploaded_file.name, uploaded_file.name)
     management.save(dataset)
-    #uploaded_file.get_value() is the data in byte format
-    #.name is "adult.csv"
-    #.type is "text/csv"
+    # uploaded_file.get_value() is the data in byte format
+    # .name is "adult.csv"
+    # .type is "text/csv"
 # data_path = Path(path)
 # test = Dataset(data_path)
 

@@ -1,8 +1,10 @@
-from .model import Model
-from .regression import MultipleLinearRegression, RandomForestRegressor, Lasso
 from .classification import (
-    KNearestNeighbors, LogisticRegressionModel, RandomForestClassifier
+    KNearestNeighbors,
+    LogisticRegressionModel,
+    RandomForestClassifier,
 )
+from .model import Model
+from .regression import Lasso, MultipleLinearRegression, RandomForestRegressor
 
 REGRESSION_MODELS = [
     "multiple_linear_regression",
@@ -30,7 +32,9 @@ def get_model(model_name: str) -> Model:
             case "random_forest_classifier":
                 return Lasso()
             case _:
-                raise NotImplementedError(f"We didn't implement {lowercase_model_name} in get_model yet, sorry")
+                raise NotImplementedError("We didn't implement"
+                                          + f"{lowercase_model_name}"
+                                          + "in get_model yet, sorry")
     elif lowercase_model_name in CLASSIFICATION_MODELS:
         match lowercase_model_name:
             case "k_nearest_neighbours":
@@ -40,7 +44,9 @@ def get_model(model_name: str) -> Model:
             case "random_forest_classifier":
                 return RandomForestClassifier()
             case _:
-                raise NotImplementedError(f"We didn't implement {lowercase_model_name} in get_model yet, sorry")
-                
+                raise NotImplementedError("We didn't implement"
+                                          + f"{lowercase_model_name}"
+                                          + "in get_model yet, sorry")
+
     else:
         raise ValueError("That don exis bruh.")

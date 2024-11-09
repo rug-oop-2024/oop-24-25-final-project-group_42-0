@@ -1,7 +1,6 @@
 from typing import List, Tuple
 
 import numpy as np
-import pandas as pd
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from autoop.core.ml.dataset import Dataset

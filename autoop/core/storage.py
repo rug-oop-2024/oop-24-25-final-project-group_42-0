@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from glob import glob
-from typing import List, Union
+from typing import List
 
 
 class NotFoundError(Exception):

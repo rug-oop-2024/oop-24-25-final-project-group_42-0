@@ -2,7 +2,6 @@ from typing import List
 
 from autoop.core.database import Database
 from autoop.core.ml.artifact import Artifact
-from autoop.core.ml.dataset import Dataset
 from autoop.core.storage import LocalStorage, Storage
 
 
@@ -25,7 +24,7 @@ class ArtifactRegistry():
             "metadata": artifact.metadata,
             "type": artifact.type,
         }
-        
+
         self._database.set("artifacts", artifact.id, entry)
 
     def list(self, type: str = None) -> List[Artifact]:

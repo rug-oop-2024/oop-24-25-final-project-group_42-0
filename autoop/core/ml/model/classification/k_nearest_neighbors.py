@@ -8,7 +8,7 @@ Description: a file for the k nearest neighbour;
 from collections import Counter
 
 import numpy as np
-from pydantic import Field, PrivateAttr
+from pydantic import Field
 
 from autoop.core.ml.model.model import ClassificationModel
 

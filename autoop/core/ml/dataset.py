@@ -1,5 +1,7 @@
 import io
+
 import pandas as pd
+
 from autoop.core.ml.artifact import Artifact
 
 
@@ -23,12 +25,12 @@ class Dataset(Artifact):
     @staticmethod
     def from_artifact(artifact: Artifact):
         return Dataset(
-            name = artifact.name,
-            asset_path = artifact.asset_path,
-            data = artifact.data,
-            tags = artifact.tags,
-            metadata = artifact.metadata,
-            version = artifact.version
+            name=artifact.name,
+            asset_path=artifact.asset_path,
+            data=artifact.data,
+            tags=artifact.tags,
+            metadata=artifact.metadata,
+            version=artifact.version
         )
 
     def read(self) -> pd.DataFrame:

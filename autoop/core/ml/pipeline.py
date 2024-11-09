@@ -129,7 +129,6 @@ Pipeline(
             self._evaluation_metrics_results.append((metric, result))
         self._predictions = predictions
 
-
     def execute(self):
         self._preprocess_features()
         self._split_data()
