@@ -1,4 +1,3 @@
-
 from copy import deepcopy
 
 
@@ -42,11 +41,11 @@ class Feature():
         return deepcopy(self._type)
 
     @type.setter
-    def type(self, new_type) -> None:
+    def type(self, new_type: str) -> None:
         """
         Setter for type, it will either become categorical or continuous
         Args:
-            None
+            new_type[str]: The new type that the feature will have.
         Returns:
             None
         """

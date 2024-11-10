@@ -6,8 +6,16 @@ from autoop.core.ml.artifact import Artifact
 
 
 class Dataset(Artifact):
+    """
+    Dataset class which extends Artifact, handles converting
+    from artifact and from dataframe and reading the data.
+    """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        initialisation of a Dataset file
+        sends all of them to Artifact with an extra parameter being type="dataset"
+        """
         super().__init__(type="dataset", *args, **kwargs)
 
     @staticmethod

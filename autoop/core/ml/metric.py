@@ -38,9 +38,9 @@ def get_metric(name: str) -> "Metric":
             case "root_mean_squared_error":
                 return RootMeanSquaredError()
             case _:
-                raise NotImplementedError("We didn't" +
-                                          f" implement {lower_case_name}" +
-                                          " in get_model yet, sorry")
+                raise NotImplementedError("We didn't"
+                                          + f" implement {lower_case_name}"
+                                          + " in get_model yet, sorry")
     elif lower_case_name in CATEGORICAL_METRICS:
         match lower_case_name:
             case "accuracy":
@@ -50,9 +50,9 @@ def get_metric(name: str) -> "Metric":
             case "recall":
                 return Recall()
             case _:
-                raise NotImplementedError("We didn't " +
-                                          f"implement {lower_case_name}" +
-                                          " in get_model yet, sorry")
+                raise NotImplementedError("We didn't "
+                                          + f"implement {lower_case_name}"
+                                          + " in get_model yet, sorry")
     else:
         raise ValueError(f"{lower_case_name} not in METRICS.")
 
