@@ -80,10 +80,25 @@ Pipeline(
             name=f"pipeline_model_{self._model.type}"))
         return artifacts
 
-    def _register_artifact(self, name: str, artifact):
+    def _register_artifact(self, name: str, artifact: Artifact) -> None:
+        """
+        Registers the artifact (adds the artifact to dictionary, self._artifacts).
+        Args:
+            name[str]: The name of the artifact
+            artifact[Artifact]: The artifact that needs to be added.
+        Returns:
+            None
+        """
         self._artifacts[name] = artifact
 
-    def _preprocess_features(self):
+    def _preprocess_features(self) -> None:
+        """
+        Preprocesses the features given at creation.
+        Args:
+            None
+        Returns:
+            None
+        """
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset)[0]
         self._register_artifact(target_feature_name, artifact)
@@ -94,8 +109,14 @@ Pipeline(
         self._output_vector = target_data
         self._input_vectors = [data for (feature_name, data, artifact) in input_results]
 
-    def _split_data(self):
-        # Split the data into training and testing sets
+    def _split_data(self) -> None:
+        """
+        Split the data given at creation into training and testing sets.
+        Args: 
+            None
+        Returns:
+            None
+        """
         split = self._split
         self._train_X = (
             [vector[:int(split * len(vector))] for vector in self._input_vectors]
@@ -108,9 +129,24 @@ Pipeline(
             int(split * len(self._output_vector)):]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
+        """
+        Joins multiple vectors together.
+        Args: 
+            vectors[vectors: List[np.array]]
+        Returns:
+            A vector[np.array]
+        """
         return np.concatenate(vectors, axis=1)
 
-    def _train(self):
+    def _train(self) -> None:
+        """
+        Trains the model given at creation(in self).
+        After that it also predicts using the testing sets.
+        Args:
+            None
+        Returns:
+            None
+        """
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
@@ -120,7 +156,14 @@ Pipeline(
             result = metric.evaluate(predictions, Y)
             self._training_metrics_results.append((metric, result))
 
-    def _evaluate(self):
+    def _evaluate(self) -> None:
+        """
+        Evaluates all metrics given at creation (in self._metrics)
+        Args:
+            None
+        Returns
+            None
+        """
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
         predictions = self._model.predict(X)
@@ -129,7 +172,15 @@ Pipeline(
             self._evaluation_metrics_results.append((metric, result))
         self._predictions = predictions
 
-    def execute(self):
+    def execute(self) -> None:
+        """
+        Executes the pipeline: preprocesses and splits the data,
+        trains the model and then evaluates using the metrics. 
+        Args:
+            None
+        Return:
+            None
+        """
         self._preprocess_features()
         self._split_data()
         self._train()

@@ -20,6 +20,14 @@ CATEGORICAL_METRICS = [
 
 
 def get_metric(name: str) -> "Metric":
+    """
+    Gives a metric given its name.
+    Args:
+        name[str]: The name (in lowercase), of the metric that you want to get.
+    Returns:
+        The metric[Metric] with the given name.
+    """
+
     lower_case_name = name.lower()
     if lower_case_name in CONTINUOUS_METRICS:
         match lower_case_name:
@@ -73,13 +81,15 @@ class Metric(ABC, BaseModel):
         return self.evaluate(prediction, ground_truth)
 
     @abstractmethod
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray):
+    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        abstract method of evaluate, checks for common errors
+        Abstract method of evaluate, checks for common errors
         and saves the data to self._data.
         Args:
             prediction (np.ndarray): prediction of the model
             ground_truth (np.ndarray): the actual data points
+        Returns: 
+            None, children return a float 
         """
         if not Type_Checker(prediction, np.ndarray):
             Raise_Type_Error(prediction, np.ndarray, "prediction")
@@ -93,12 +103,17 @@ class Metric(ABC, BaseModel):
 
 
 class CategoricalMetric(Metric):
+    """
+    Class for categorical metrics, making it easiear for identification.
+    """
 
     _type: str = PrivateAttr(default="categorical")
 
 
 class ContinuousMetric(Metric):
-
+    """
+    Class for regression metrics, making it easiear for identification.
+    """
     _type: str = PrivateAttr(default="continuous")
 
 
@@ -108,7 +123,13 @@ class Accuracy(CategoricalMetric):
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        evaluates the Accuracy metric.
+        Evaluates the Accuracy metric.
+        Args:
+            prediction[np.ndarray]: The predicition of 
+                the model the metric is performed on.
+            ground_truth[np.ndarray]:The actual data points.
+        Returns:
+            The outcome of the metric[float]. 
         """
         super().evaluate(prediction, ground_truth)
         the_same_amount = sum(ground_truth == prediction)
@@ -121,7 +142,13 @@ class Precision(CategoricalMetric):
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        evaluates the Precision metric.
+        Evaluates the Precision metric.
+        Args:
+            prediction[np.ndarray]: The predicition of 
+                the model the metric is performed on.
+            ground_truth[np.ndarray]:The actual data points.
+        Returns:
+            The outcome of the metric[float].
         """
         super().evaluate(prediction, ground_truth)
 
@@ -168,6 +195,12 @@ class Recall(CategoricalMetric):
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
         evaluates the Recall metric.
+        Args:
+            prediction[np.ndarray]: The predicition of 
+                the model the metric is performed on.
+            ground_truth[np.ndarray]:The actual data points.
+        Returns:
+            The outcome of the metric[float]. 
         """
         super().evaluate(prediction, ground_truth)
 
@@ -213,7 +246,13 @@ class MeanSquaredError(ContinuousMetric):
 
     def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
         """
-        evaluates the Mean squared error metric.
+        Evaluates the Mean squared error metric.
+        Args:
+            prediction[np.ndarray]: The predicition of 
+                the model the metric is performed on
+            ground_truth[np.ndarray]:The actual data points
+        Returns:
+            the outcome of the metric[float] 
         """
         super().evaluate(prediction, ground_truth)
         error = np.subtract(ground_truth, prediction)
@@ -253,3 +292,8 @@ class MeanAbsolutePercentageError(ContinuousMetric):
         Returns:
             answer (float): Percentage of error, the lower the better
         """
+        super().evaluate(prediction, ground_truth)
+        error = np.divide(np.subtract(ground_truth, prediction), ground_truth)
+        abs_error = np.abs(error)
+        answer = np.sum(abs_error) / len(ground_truth) * 100
+        return answer

@@ -67,7 +67,4 @@ if current_model is not None and st.button("run"):
                         chosen_preffered_feature)
     st.write(pipeline)
 
-    # pipeline._preprocess_features()
-    # pipeline._split_data()
-    # pipeline._train()
     st.write(pipeline.execute())

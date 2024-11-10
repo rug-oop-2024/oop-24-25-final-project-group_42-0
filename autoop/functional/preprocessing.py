@@ -10,7 +10,8 @@ from autoop.core.ml.feature import Feature
 def preprocess_features(
         features: List[Feature],
         dataset: Dataset) -> List[Tuple[str, np.ndarray, dict]]:
-    """Preprocess features.
+    """
+    Preprocesses the features.
     Args:
         features (List[Feature]): List of features.
         dataset (Dataset): Dataset object.

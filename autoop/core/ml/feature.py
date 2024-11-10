@@ -3,6 +3,9 @@ from copy import deepcopy
 
 
 class Feature():
+    """
+    Feature class either categorical and continuous.
+    """
 
     def __init__(self, name: str, type: str = "Not identified"):
         self._name = name

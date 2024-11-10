@@ -12,7 +12,17 @@ class Dataset(Artifact):
 
     @staticmethod
     def from_dataframe(data: pd.DataFrame, name: str,
-                       asset_path: str, version: str = "1.0.0"):
+                       asset_path: str, version: str = "1.0.0") -> "Dataset":
+        """
+        Converts a pandas dataframe to a dataset.
+        Args:
+            data[pd.DataFrame]: The dataframe that needs to be converted.
+            name[str]: The name of the new data.
+            asset_path[str]: The asset_path of the new data.
+            version[str]: The version of the new data (default is 1.0.0)
+        Returns:
+            A Dataset converted from a the given data
+        """
 
         dataset_2 = Dataset(
             name=name,
@@ -23,7 +33,14 @@ class Dataset(Artifact):
         return dataset_2
 
     @staticmethod
-    def from_artifact(artifact: Artifact):
+    def from_artifact(artifact: Artifact) -> "Dataset":
+        """
+        Converts an artifact to a dataset.
+        Args:
+            artifact[Artifact]: The artifact that needs to be converted.
+        Returns:
+            A Dataset converted from a the given artifact        
+        """
         return Dataset(
             name=artifact.name,
             asset_path=artifact.asset_path,
@@ -34,15 +51,12 @@ class Dataset(Artifact):
         )
 
     def read(self) -> pd.DataFrame:
+        """
+        Gives back the data in the dataset.
+        Args:
+            None
+        Returns:
+            A pandas dataframe converted from a the given artifact        
+        """
         csv = super().read()
         return pd.read_csv(io.StringIO(csv))
-
-    # @staticmethod
-    # def static_read(asset_path: str) -> pd.DataFrame:
-    #     csv = Artifact().static_read(asset_path)
-    #     return pd.read_csv(io.StringIO(csv))
-
-    # @staticmethod
-    # def static_save(asset_path: str, data: bytes) -> bytes:
-    #     # bytes = data.to_csv(index=False).encode()
-    #     return super().static_save(asset_path, data)

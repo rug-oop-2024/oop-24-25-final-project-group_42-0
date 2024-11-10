@@ -1,3 +1,6 @@
+"""
+Adapted from exercise 1 from the oop Course.
+"""
 from copy import deepcopy
 
 import numpy as np
@@ -23,6 +26,11 @@ class Lasso(RegressionModel):
         """
         Uses the observations and ground truth to create the intercept and
         coefficient for prediction. saves the values in self._parameters
+        Args:
+            observations[np.ndarray]: The observations of the training data.
+            ground_truth[np.ndarray]: The ground truth of the training data.
+        Returns:
+            None        
         """
         super().fit(observations, ground_truth)
         self._instance_of_lasso.fit(observations, ground_truth)
@@ -37,6 +45,10 @@ class Lasso(RegressionModel):
         """
         predicts the ground truth based on the observations,
         the intercept and the coefficient
+        Args:
+            observations[np.ndarray]: The observations that need to be predicted
+        Returns:
+            The predictions of the model as an np.ndarray.   
         """
         super().predict(observations)
         return self._instance_of_lasso.predict(observations)

@@ -6,9 +6,10 @@ from autoop.core.ml.feature import Feature
 
 def detect_feature_types(dataset: Dataset) -> List[Feature]:
     """
-    Assumption: only categorical and numerical features and no NaN values.
+    Checks a given dataset for different types of features (categorical or continuous)
+    Assumption: only categorical and continuous features and no NaN values.
     Args:
-        dataset: Dataset
+        dataset[Dataset]: The dataset that needs to be checked
     Returns:
         List[Feature]: List of features with their types.
     """

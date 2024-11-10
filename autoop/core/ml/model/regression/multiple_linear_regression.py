@@ -5,6 +5,8 @@ Authors: Oscar Schuyl(s5576954, o.schuyl@student.rug.nl)
          & Santos Bril (s5529875, s.l.bril@student.rug.nl)
 Description: a file that implements;
 a class for a multiple linear regression model.
+
+Adapted from exercise 1 of the oop course
 """
 
 from copy import deepcopy
@@ -17,7 +19,6 @@ from autoop.core.ml.model.model import RegressionModel
 
 class MultipleLinearRegression(RegressionModel):
     """A model for multiple linear regression."""
-
     _slope: np.ndarray = PrivateAttr(default=np.ndarray)
 
     @property
@@ -28,6 +29,11 @@ class MultipleLinearRegression(RegressionModel):
         """
         Uses the observations and ground truth
         to create a slope for prediction.
+        Args:
+            observations[np.ndarray]: The observations of the training data.
+            ground_truth[np.ndarray]: The ground truth of the training data.
+        Returns:
+            None
         """
         super().fit(observations, ground_truth)
         self._observations = observations
@@ -51,6 +57,10 @@ class MultipleLinearRegression(RegressionModel):
         """
         Using the slope and observations to calculate
         and return the ground truth.
+        Args:
+            observations[np.ndarray]: The observations that need to be predicted
+        Returns:
+            The predictions of the model as an np.ndarray.
         """
         super().predict(observations)
         if type(self._slope) is not np.ndarray:
@@ -74,7 +84,11 @@ class MultipleLinearRegression(RegressionModel):
 
     def _add_row_of_ones(matrix: np.ndarray) -> np.ndarray:
         """
-        adds a row of ones to the matrix
+        Adds a row of ones to the matrix.
+        Args:
+            matrix[np.ndarray]: This matrix will get an additional row of ones.
+        Returns:
+            Matrix[np.ndarray] with an added row of ones.
         """
         if type(matrix) is not np.ndarray:
             raise TypeError(

@@ -12,7 +12,14 @@ class ArtifactRegistry():
         self._database = database
         self._storage = storage
 
-    def register(self, artifact: Artifact):
+    def register(self, artifact: Artifact) -> None:
+        """
+        Saves the artifact in storage and the metadata in the database.
+        Args: 
+        artifact[Artifact]: the artifact that needs to be saved.
+        Returns:
+        None
+        """
         # save the artifact in the storage
         self._storage.save(artifact.data, artifact.asset_path)
         # save the metadata in the database
@@ -28,6 +35,13 @@ class ArtifactRegistry():
         self._database.set("artifacts", artifact.id, entry)
 
     def list(self, type: str = None) -> List[Artifact]:
+        """
+        Gives all the artifacts of a specified type
+        Args:
+        type[str]: type that you want the artifacts of
+        Returns:
+        List of artifacts
+        """
         entries = self._database.list("artifacts")
         artifacts = []
         for id, data in entries:
@@ -46,6 +60,13 @@ class ArtifactRegistry():
         return artifacts
 
     def get(self, artifact_id: str) -> Artifact:
+        """
+        Retrieves an artifact from the database.
+        Args:
+        Artifact_id[str]: Id of the artifact that needs to be retrieved.
+        Returns:
+        An Artifact.
+        """
         data = self._database.get("artifacts", artifact_id)
         return Artifact(
             name=data["name"],
@@ -57,7 +78,14 @@ class ArtifactRegistry():
             type=data["type"],
         )
 
-    def delete(self, artifact_id: str):
+    def delete(self, artifact_id: str) -> None:
+        """
+        Removes an artifact from the database and the storage.
+        Args
+        artifact_id[str]: Id of an Artifact that needs to be removed.
+        Returns
+        None
+        """
         data = self._database.get("artifacts", artifact_id)
         self._storage.delete(data["asset_path"])
         self._database.delete("artifacts", artifact_id)
@@ -73,6 +101,13 @@ class AutoMLSystem:
 
     @staticmethod
     def get_instance():
+        """
+        Gives an instance of the AutoMLSystem class.
+        Args:
+        None
+        Returns
+        Instance of the AutoMLSystem class
+        """
         if AutoMLSystem._instance is None:
             AutoMLSystem._instance = AutoMLSystem(
                 LocalStorage("./assets/objects"),

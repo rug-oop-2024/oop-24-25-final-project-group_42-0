@@ -10,7 +10,7 @@ from autoop.core.ml.model.model import RegressionModel
 class RandomForestRegressor(RegressionModel):
     """
     A class that acts as a wrapper for the
-    Lasso function from scikit-learn.linear_model.Lasso
+    Random forest regressor from scikit-learn.linear_model.ensebmle
     """
 
     _instance_of_random_forest_regressor: ensemble.RandomForestRegressor = (
@@ -25,6 +25,11 @@ class RandomForestRegressor(RegressionModel):
         """
         Uses the observations and ground truth to create the intercept and
         coefficient for prediction. saves the values in self._parameters
+        Args:
+            observations[np.ndarray]: The observations of the training data.
+            ground_truth[np.ndarray]: The ground truth of the training data.
+        Returns:
+            None
         """
         super().fit(observations, ground_truth)
         self._instance_of_random_forest_regressor.fit(observations, ground_truth)
@@ -39,6 +44,10 @@ class RandomForestRegressor(RegressionModel):
         """
         predicts the ground truth based on the observations,
         the intercept and the coefficient
+        Args:
+            observations[np.ndarray]: The observations that need to be predicted
+        Returns:
+            The predictions of the model as an np.ndarray.        
         """
         super().predict(observations)
         return self._instance_of_random_forest_regressor.predict(observations)

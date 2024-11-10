@@ -14,7 +14,13 @@ from autoop.core.ml.dataset import Dataset
 class Management():
 
     def create(self, full_asset_path: str) -> Dataset:
-        # csv = Artifact.static_read("./datasets/adult.csv")
+        """
+        creates a dataset and saves it given its asset path
+        Args:
+            full_asset_path[str]: the full asset path to the csv file
+        Return:
+            A saved dataset
+        """
         data_path = Path(full_asset_path)
         df = pd.read_csv(data_path)
 
@@ -27,13 +33,27 @@ class Management():
         self.save(dataset)
         return dataset
 
-    def delete(self, artifact: Artifact):
+    def delete(self, artifact: Artifact) -> None:
+        """
+        Deletes an artifact from the database and storage.
+        Args:
+            artifact[Artifact]: The artifact that needs to be deleted.
+        Returns:
+            None
+        """
         st.write("file deleted")
         automl.registry.delete(artifact.id)
         os.remove("./assets/dbo/artifacts/" + artifact.id)
         st.rerun()
 
-    def save(self, artifact: Artifact):
+    def save(self, artifact: Artifact) -> None:
+        """
+        Saves an artifact 
+        Args:
+            artifact[Artifact]: The artifact that needs to be saved.
+        Returns:
+            None
+        """
         instance_of_automl = AutoMLSystem.get_instance()
         instance_of_automl.registry.register(artifact)
 
@@ -51,12 +71,6 @@ if uploaded_file is not None and uploaded_file.type == "text/csv":
     df = pd.read_csv(io.StringIO(uploaded_file.getvalue().decode()))
     dataset = Dataset.from_dataframe(df, uploaded_file.name, uploaded_file.name)
     management.save(dataset)
-    # uploaded_file.get_value() is the data in byte format
-    # .name is "adult.csv"
-    # .type is "text/csv"
-# data_path = Path(path)
-# test = Dataset(data_path)
-
 if st.button("delete file") and path is not None:
     management.delete(management.create(path))
 
@@ -66,30 +80,3 @@ if path is not None:
 datasets = automl.registry.list(type="dataset")
 st.dataframe(dataset.read())
 
-"""
-docstring format
-Args:
-    arguments
-Returns:
-    dictionary of metrics
-"""
-
-# Choose columns to plot
-# columns = st.multiselect("Select columns to plot", dataset.columns)
-# fig = None
-# print(columns)
-# if len(columns) == 0:
-#     st.write("Please select at least one column to plot.")
-# if len(columns) == 1:
-#     fig = plotter.hist_1d(columns[0])
-# if len(columns) == 2:
-#     fig = plotter.scatter_2d(columns[0], columns[1])
-# if len(columns) == 3:
-#     fig = plotter.scatter_3d(columns[0], columns[1], columns[2])
-# if len(columns) > 3:
-#     st.error("Please select at most 3 columns to plot.")
-# if fig:
-#     st.pyplot(fig)
-
-
-# your code here

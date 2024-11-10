@@ -5,18 +5,6 @@ from copy import deepcopy
 
 class Artifact():
 
-    """
-    "asset_path": "users/mo-assaf/models/yolov8.pth",
-    "version": "1.0.2",
-    "data": b"binary_state_data",
-    "metadata": {
-        "experiment_id": "exp-123fbdiashdb",
-        "run_id": "run-12378yufdh89afd",
-    },
-    "type": "model:torch",
-    "tags": ["computer_vision", "object_detection"]
-    """
-
     def __init__(self,
                  type: str, name: str, data, asset_path: str, tags: list = [],
                  metadata: dict = {}, version: str = "1.0.0"):
@@ -64,10 +52,14 @@ class Artifact():
     def id(self):
         return deepcopy(self._id)
 
-    def save(self, bytes: bytes):
+    def save(self, bytes: bytes) -> None:
         """
-        saves the dataset on the datasets folder
-        If datasets doesn't exist yet will create the folder
+        Saves the dataset in the datasets folder.
+        If datasets doesn't exist yet will create the folder.
+        Args:
+            bytes[bytes]: Bytes of the dataset that need to be saved.
+        Returns:
+            None
         """
 
         if not os.path.exists("./assets/objects/"):
@@ -78,12 +70,26 @@ class Artifact():
         with open("./assets/objects/" + self._asset_path, "w") as file:
             file.writelines(data)
 
-    def remove(self):
+    def remove(self) -> None:
+        """
+        Removes the artifact.
+        Args:
+            None
+        Returns:
+            None
+        """
+
         if os.path.exists("./assets/objects/" + self.asset_path):
             os.remove("./assets/objects/" + self.asset_path)
 
     def read(self) -> str:
-        """reads the data from the asset_path directory"""
+        """
+        Reads the data from the asset_path directory
+        Args:
+            None
+        Returns:
+            None        
+        """
 
         if not os.path.exists("./assets/objects/"):
             raise FileNotFoundError("assets directory not found")

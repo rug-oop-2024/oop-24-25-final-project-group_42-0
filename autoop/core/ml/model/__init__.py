@@ -20,7 +20,13 @@ CLASSIFICATION_MODELS = [
 
 
 def get_model(model_name: str) -> Model:
-    """Factory function to get a model by name."""
+    """
+    Factory function to get a model by name.
+    Args:
+        model_name[str]: The name of a model that needs to be retrieved.
+    Returns:
+        The model[Model] of the given name. 
+    """
     lowercase_model_name = model_name.lower()
 
     if lowercase_model_name in REGRESSION_MODELS:

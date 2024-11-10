@@ -23,8 +23,13 @@ class RandomForestClassifier(ClassificationModel):
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """
-        Uses the observations and ground truth to create the intercept and
-        coefficient for prediction. saves the values in self._parameters
+        Uses the observations and ground truth to fit (train) the model. 
+        saves the values in self._parameters
+        Args:
+            observations[np.ndarray]: The observations of the training data.
+            ground_truth[np.ndarray]: The ground truth of the training data.
+        Returns:
+            None
         """
         super().fit(observations, ground_truth)
         self._instance_of_random_forest_classifier.fit(observations, ground_truth)
@@ -39,6 +44,10 @@ class RandomForestClassifier(ClassificationModel):
         """
         predicts the ground truth based on the observations,
         the intercept and the coefficient
+        Args:
+            observations[np.ndarray]: The observations that need to be predicted
+        Returns:
+            The predictions of the model as an np.ndarray.        
         """
         super().predict(observations)
         return self._instance_of_random_forest_classifier.predict(observations)

@@ -13,7 +13,8 @@ class Database():
         self._load()
 
     def set(self, collection: str, id: str, entry: dict) -> dict:
-        """Set a key in the database
+        """
+        Set a key in the database
         Args:
             collection (str): The collection to store the data in
             id (str): The id of the data
@@ -42,7 +43,7 @@ class Database():
             return None
         return self._data[collection].get(id, None)
 
-    def delete(self, collection: str, id: str):
+    def delete(self, collection: str, id: str) -> None:
         """Delete a key from the database
         Args:
             collection (str): The collection to delete the data from
@@ -68,12 +69,24 @@ class Database():
             return []
         return [(id, data) for id, data in self._data[collection].items()]
 
-    def refresh(self):
-        """Refresh the database by loading the data from storage"""
+    def refresh(self) -> None:
+        """
+        Refresh the database by loading the data from storage
+        Args: 
+            None
+        Returns:
+            None
+        """
         self._load()
 
-    def _persist(self):
-        """Persist the data to storage"""
+    def _persist(self) -> None:
+        """
+        Persist the data to storage
+        Args:
+            None
+        Returns:
+            None
+        """
         for collection, data in self._data.items():
             if not data:
                 continue
@@ -87,8 +100,14 @@ class Database():
             if not self._data.get(collection, id):
                 self._storage.delete(f"{collection}/{id}")
 
-    def _load(self):
-        """Load the data from storage"""
+    def _load(self) -> None:
+        """
+        Load the data from storage
+        Args:
+            None
+        Returns:
+            None
+        """
         self._data = {}
         for key in self._storage.list(""):
             collection, id = key.split("\\")[-2:]
