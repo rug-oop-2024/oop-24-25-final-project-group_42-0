@@ -88,7 +88,7 @@ class Artifact():
         Args:
             None
         Returns:
-            None
+            str
         """
 
         if not os.path.exists("./assets/objects/"):

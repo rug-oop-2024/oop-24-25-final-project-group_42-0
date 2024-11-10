@@ -1,3 +1,6 @@
+"""
+Init for the classification and regression models.
+"""
 from .classification import (
     KNearestNeighbors,
     LogisticRegressionModel,
@@ -38,9 +41,9 @@ def get_model(model_name: str) -> Model:
             case "random_forest_classifier":
                 return Lasso()
             case _:
-                raise NotImplementedError("We didn't implement"
-                                          + f"{lowercase_model_name}"
-                                          + "in get_model yet, sorry")
+                raise NotImplementedError("We didn't implement " +
+                                          f"{lowercase_model_name}" +
+                                          " in get_model yet, sorry")
     elif lowercase_model_name in CLASSIFICATION_MODELS:
         match lowercase_model_name:
             case "k_nearest_neighbours":
@@ -50,9 +53,9 @@ def get_model(model_name: str) -> Model:
             case "random_forest_classifier":
                 return RandomForestClassifier()
             case _:
-                raise NotImplementedError("We didn't implement"
-                                          + f"{lowercase_model_name}"
-                                          + "in get_model yet, sorry")
+                raise NotImplementedError("We didn't implement" +
+                                          f"{lowercase_model_name}" +
+                                          "in get_model yet, sorry")
 
     else:
         raise ValueError("That don exis bruh.")

@@ -53,7 +53,8 @@ class KNearestNeighbors(ClassificationModel):
         """
         Predicts the ground truths of individual observations.
         Args:
-            observations[np.ndarray]: The observation that need to be predicted.
+            observations[np.ndarray]:
+                The observation that need to be predicted.
         Teturns:
             the predictions as an np.ndarray
         """
@@ -62,14 +63,14 @@ class KNearestNeighbors(ClassificationModel):
         predictions = [self._predict_single(x) for x in observations]
         return predictions
 
-    def _predict_single(self, observation:float) -> str:
+    def _predict_single(self, observation: float) -> str:
         """
         Calculates distance between observation and every other point and
         returns the most common ground truth.
         Args:
             observation[float]: A single observation that will be predicted.
         Returns:
-            a string: The label of the most common amoung its nearest neighbors.
+            a string: The most common label among its nearest neighbors.
 
         """
         distances = np.linalg.norm(

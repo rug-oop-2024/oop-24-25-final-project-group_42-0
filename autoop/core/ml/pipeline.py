@@ -12,6 +12,10 @@ from autoop.functional.preprocessing import preprocess_features
 
 
 class Pipeline():
+    """
+    Pipline class, it takes data to train a model on
+    and then can perform certain metrics on it.
+    """
 
     def __init__(self,
                  metrics: List[Metric],
@@ -19,8 +23,20 @@ class Pipeline():
                  model: Model,
                  input_features: List[Feature],
                  target_feature: Feature,
-                 split=0.8,
-                 ):
+                 split: float = 0.8,
+                 ) -> None:
+        """
+        Initializes the pipline.
+        Args:
+            metrics[List[Metric]]: The list of metric to be performed
+            dataset[Dataset]: The data to be used.
+            model[Model]: The model to be used.
+            input_features[List[Feature]]: The features
+            (from the data) to be used.
+            target_feature[Feature]: The target feature
+            (the feature to test on).
+            split[float]: The split between the training and testing data.
+        """
         self._dataset = dataset
         self._model = model
         self._input_features = input_features
@@ -30,15 +46,23 @@ class Pipeline():
         self._split = split
         self._training_metrics_results = []
         self._evaluation_metrics_results = []
-        if target_feature.type == "categorical" and model.type != "classification":
+        if target_feature.type == "categorical" and (
+                model.type != "classification"):
             raise ValueError(
-                "Model type must be"
-                + "classification for categorical target feature")
+                "Model type must be" +
+                " classification for categorical target feature")
         if target_feature.type == "continuous" and model.type != "regression":
             raise ValueError(
                 "Model type must be regression for continuous target feature")
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Returns a summary of the pipline
+        Args:
+            None
+        Returns:
+            a summary of the pipline[str]
+        """
         return f"""
 Pipeline(
     model={self._model.type},
@@ -50,13 +74,21 @@ Pipeline(
 """
 
     @property
-    def model(self):
+    def model(self) -> Model:
+        """
+        Returns the model in the pipline
+        Args:
+            None
+        Returns:
+            The model[Model] in the pipline
+        """
         return self._model
 
     @property
     def artifacts(self) -> List[Artifact]:
         """
-        Used to get the artifacts generated during the pipeline execution to be saved
+        Used to get the artifacts generated during
+        the pipeline execution to be saved
         """
         artifacts = []
         for name, artifact in self._artifacts.items():
@@ -82,7 +114,8 @@ Pipeline(
 
     def _register_artifact(self, name: str, artifact: Artifact) -> None:
         """
-        Registers the artifact (adds the artifact to dictionary, self._artifacts).
+        Registers the artifact
+        (adds the artifact to dictionary, self._artifacts).
         Args:
             name[str]: The name of the artifact
             artifact[Artifact]: The artifact that needs to be added.
@@ -102,12 +135,15 @@ Pipeline(
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset)[0]
         self._register_artifact(target_feature_name, artifact)
-        input_results = preprocess_features(self._input_features, self._dataset)
+        input_results = preprocess_features(
+            self._input_features, self._dataset)
         for (feature_name, data, artifact) in input_results:
             self._register_artifact(feature_name, artifact)
-        # Get the input vectors and output vector, sort by feature name for consistency
+        # Get the input vectors and output vector,
+        # sort by feature name for consistency
         self._output_vector = target_data
-        self._input_vectors = [data for (feature_name, data, artifact) in input_results]
+        self._input_vectors = [
+            data for (feature_name, data, artifact) in input_results]
 
     def _split_data(self) -> None:
         """
@@ -119,7 +155,8 @@ Pipeline(
         """
         split = self._split
         self._train_X = (
-            [vector[:int(split * len(vector))] for vector in self._input_vectors]
+            [vector[:int(
+                split * len(vector))] for vector in self._input_vectors]
         )
         self._test_X = [vector[
             int(split * len(vector)):] for vector in self._input_vectors]

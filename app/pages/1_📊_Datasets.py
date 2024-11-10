@@ -12,6 +12,9 @@ from autoop.core.ml.dataset import Dataset
 
 
 class Management():
+    """
+    Management class, handles management of artifacts.
+    """
 
     def create(self, full_asset_path: str) -> Dataset:
         """
@@ -69,7 +72,8 @@ uploaded_file = st.file_uploader("Or upload a .csv file")
 
 if uploaded_file is not None and uploaded_file.type == "text/csv":
     df = pd.read_csv(io.StringIO(uploaded_file.getvalue().decode()))
-    dataset = Dataset.from_dataframe(df, uploaded_file.name, uploaded_file.name)
+    dataset = Dataset.from_dataframe(
+        df, uploaded_file.name, uploaded_file.name)
     management.save(dataset)
 if st.button("delete file") and path is not None:
     management.delete(management.create(path))

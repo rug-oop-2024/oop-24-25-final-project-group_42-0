@@ -17,18 +17,46 @@ class Model(ABC, BaseModel):
 
     @property
     def parameters(self) -> dict:
+        """
+        Getter for the parameters
+        Args:
+            None
+        Returns:
+            parameters[Dict{np.ndarray}
+        """
         return deepcopy(self._parameters)
 
     @property
     def observations(self) -> np.ndarray:
+        """
+        Getter for the observations
+        Args:
+            None
+        Returns:
+            observations[np.ndarray]
+        """
         return deepcopy(self._parameters["observations"])
 
     @property
     def ground_truth(self) -> np.ndarray:
+        """
+        Getter for the ground thruth
+        Args:
+            None
+        Returns:
+            ground truth[np.ndarray]
+        """
         return deepcopy(self._parameters["ground_truth"])
 
     @property
-    def type(self):
+    def type(self) -> str:
+        """
+        Getter for type
+        Args:
+            None
+        Returns:
+            type[string]
+        """
         return self._type
 
     @abstractmethod
@@ -44,13 +72,13 @@ class Model(ABC, BaseModel):
         """
         if type(observations) is not np.ndarray:
             raise TypeError(
-                "fit doesn't accept observations of type:"
-                + f"{type(observations)}"
+                "fit doesn't accept observations of type:" +
+                f"{type(observations)}"
             )
         elif type(ground_truth) is not np.ndarray:
             raise TypeError(
-                "fit doesn't accept observations of type:"
-                + f"{type(ground_truth)}"
+                "fit doesn't accept observations of type:" +
+                f"{type(ground_truth)}"
             )
         self._parameters = {
             "observations": observations,
@@ -62,14 +90,15 @@ class Model(ABC, BaseModel):
         """
         Makes a prediction based on given observations.
         Args:
-            observations[np.ndarray]: The observations that need to be predicted
+            observations[np.ndarray]:
+                The observations that need to be predicted
         Returns:
             The predictions of the model as an np.ndarray.
         """
         if type(observations) is not np.ndarray:
             raise TypeError(
-                "predict doesn't accept observations of type:"
-                + f"{type(observations)}"
+                "predict doesn't accept observations of type:" +
+                f"{type(observations)}"
             )
 
 

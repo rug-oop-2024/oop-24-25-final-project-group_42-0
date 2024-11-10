@@ -11,13 +11,21 @@ from autoop.functional.feature import detect_feature_types
 st.set_page_config(page_title="Deployment", page_icon="📈")
 
 
-def write_helper_text(text: str):
+def write_helper_text(text: str) -> None:
+    """
+    writes helper text
+    Args:
+        text[str]: input text
+    Returns:
+        None
+    """
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
 
 st.write("# ⚙ Modelling")
-write_helper_text("In this section, you can design"
-                  + "a machine learning pipeline to train a model on a dataset.")
+write_helper_text("In this section, you can design" +
+                  "a machine learning pipeline to" +
+                  " train a model on a dataset.")
 
 automl = AutoMLSystem.get_instance()
 
@@ -34,14 +42,16 @@ if current_dataset_name:
         datasets[names.index(current_dataset_name)])
     list_of_features = detect_feature_types(current_dataset)
 
-    chosen_features: list[Feature] = st.multiselect("choose features", list_of_features)
+    chosen_features: list[Feature] = st.multiselect(
+        "choose features", list_of_features)
 
     chosen_preffered_feature = st.selectbox(
         "choose preffered feature", chosen_features, None)
 
 if chosen_preffered_feature:
     if chosen_preffered_feature.type == "categorical":
-        chosen_model = st.selectbox("Select a model", CLASSIFICATION_MODELS, None)
+        chosen_model = st.selectbox(
+            "Select a model", CLASSIFICATION_MODELS, None)
     elif chosen_preffered_feature.type == "continuous":
         chosen_model = st.selectbox("Select a model", REGRESSION_MODELS, None)
     else:

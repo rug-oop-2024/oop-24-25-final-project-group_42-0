@@ -5,12 +5,22 @@ from typing import List
 
 
 class NotFoundError(Exception):
-    def __init__(self, path):
+    """Error for when a file isn't found"""
+    def __init__(self, path: str) -> None:
+        """
+        Initializes NotFoundError.
+        Args:
+            path[str]: The path needing to be checked.
+        Returns:
+            None
+        """
         super().__init__(f"Path not found: {path}")
 
 
 class Storage(ABC):
-
+    """
+    Abstract class for storage
+    """
     @abstractmethod
     def save(self, data: bytes, path: str) -> None:
         """
@@ -58,8 +68,16 @@ class Storage(ABC):
 
 
 class LocalStorage(Storage):
+    """
+    A class for a local storage
+    """
 
-    def __init__(self, base_path: str = "./assets"):
+    def __init__(self, base_path: str = "./assets") -> None:
+        """
+        Initializes local storage class
+        Args:
+            base_path[str]: the base path of the local storage
+        """
         self._base_path = base_path
         if not os.path.exists(self._base_path):
             os.makedirs(self._base_path)

@@ -6,8 +6,18 @@ from autoop.core.storage import Storage
 
 
 class Database():
+    """
+    Database class keeps track of and stores data.
+    """
 
-    def __init__(self, storage: Storage):
+    def __init__(self, storage: Storage) -> None:
+        """
+        Initializes Databases
+        Args:
+            storage[Storage]: The storage for the database
+        Returns:
+            None
+        """
         self._storage = storage
         self._data = {}
         self._load()
@@ -37,7 +47,8 @@ class Database():
             collection (str): The collection to get the data from
             id (str): The id of the data
         Returns:
-            Union[dict, None]: The data that was stored, or None if it doesn't exist
+            Union[dict, None]: The data that was stored,
+              or None if it doesn't exist
         """
         if not self._data.get(collection, None):
             return None
@@ -91,7 +102,8 @@ class Database():
             if not data:
                 continue
             for id, item in data.items():
-                self._storage.save(json.dumps(item).encode(), f"{collection}/{id}")
+                self._storage.save(json.dumps(item).encode(),
+                                   f"{collection}/{id}")
 
         # for things that were deleted, we need to remove them from the storage
         keys = self._storage.list("")

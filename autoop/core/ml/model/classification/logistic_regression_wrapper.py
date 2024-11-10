@@ -18,7 +18,15 @@ class LogisticRegressionModel(ClassificationModel):
     )
 
     @property
-    def logistic_regression(self):
+    def logistic_regression(self) -> sk.LogisticRegression:
+        """
+        Getter for the instance of logistic regression.
+        Args:
+            None
+        Return:
+            An instance of logistic regression
+                [sk.LogisticRegression]
+        """
         return deepcopy(self._instance_of_logistic_regression)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -45,7 +53,8 @@ class LogisticRegressionModel(ClassificationModel):
         Predicts the ground truth based on the observations,
         the intercept and the coefficient.
         Args:
-            observations[np.ndarray]: The observations that need to be predicted
+            observations[np.ndarray]:
+                The observations that need to be predicted
         Returns:
             The predictions of the model as an np.ndarray.
         """

@@ -19,7 +19,14 @@ class Lasso(RegressionModel):
     _instance_of_lasso: linear.Lasso = PrivateAttr(default=linear.Lasso())
 
     @property
-    def lasso(self):
+    def lasso(self) -> "Lasso":
+        """
+        Getter for lasso
+        Args:
+            None
+        Returns:
+            deepcopy of an instance of lasso
+        """
         return deepcopy(self._instance_of_lasso)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -46,7 +53,8 @@ class Lasso(RegressionModel):
         predicts the ground truth based on the observations,
         the intercept and the coefficient
         Args:
-            observations[np.ndarray]: The observations that need to be predicted
+            observations[np.ndarray]:
+                The observations that need to be predicted
         Returns:
             The predictions of the model as an np.ndarray.
         """

@@ -18,7 +18,14 @@ class RandomForestRegressor(RegressionModel):
     )
 
     @property
-    def random_forest_regressor(self):
+    def random_forest_regressor(self) -> ensemble.RandomForestRegressor:
+        """
+        getter for instance of random forest regressor
+        Args:
+            None
+        Returns:
+            an instance of random forest regressor
+        """
         return deepcopy(self._instance_of_random_forest_regressor)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -32,11 +39,13 @@ class RandomForestRegressor(RegressionModel):
             None
         """
         super().fit(observations, ground_truth)
-        self._instance_of_random_forest_regressor.fit(observations, ground_truth)
+        self._instance_of_random_forest_regressor.fit(
+            observations, ground_truth)
         self._parameters.update(
             {
                 "_coef": self._instance_of_random_forest_regressor.coef_,
-                "_intercept": self._instance_of_random_forest_regressor.intercept_,
+                "_intercept": (
+                    self._instance_of_random_forest_regressor.intercept_),
             }
         )
 
@@ -45,7 +54,8 @@ class RandomForestRegressor(RegressionModel):
         predicts the ground truth based on the observations,
         the intercept and the coefficient
         Args:
-            observations[np.ndarray]: The observations that need to be predicted
+            observations[np.ndarray]:
+                The observations that need to be predicted
         Returns:
             The predictions of the model as an np.ndarray.
         """

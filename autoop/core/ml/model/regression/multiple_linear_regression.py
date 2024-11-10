@@ -23,6 +23,13 @@ class MultipleLinearRegression(RegressionModel):
 
     @property
     def get_slope(self) -> np.ndarray:
+        """
+        Getter for slope
+        Args:
+            None
+        Returns:
+            The slope np.ndarray.
+        """
         return deepcopy(self._slope)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -58,21 +65,22 @@ class MultipleLinearRegression(RegressionModel):
         Using the slope and observations to calculate
         and return the ground truth.
         Args:
-            observations[np.ndarray]: The observations that need to be predicted
+            observations[np.ndarray]:
+                The observations that need to be predicted
         Returns:
             The predictions of the model as an np.ndarray.
         """
         super().predict(observations)
         if type(self._slope) is not np.ndarray:
             raise TypeError(
-                f"The variable self._slope is type {type(self._slope)},"
-                + "self._slope should be np.ndarray."
+                f"The variable self._slope is type {type(self._slope)}," +
+                "self._slope should be np.ndarray."
             )
         if observations.shape[1] is not len(self._slope) - 1:
             raise ValueError(
-                "Unexpected amount of columns in observations,"
-                + f"expected{len(self._slope) - 1}"
-                + f"got{observations.shape[1]}. "
+                "Unexpected amount of columns in observations," +
+                f"expected{len(self._slope) - 1}" +
+                f"got{observations.shape[1]}. "
             )
 
         observations_with_constants = (
@@ -92,8 +100,8 @@ class MultipleLinearRegression(RegressionModel):
         """
         if type(matrix) is not np.ndarray:
             raise TypeError(
-                f"The variable matrix is type {type(matrix)},"
-                + "matrix should be np.ndarray."
+                f"The variable matrix is type {type(matrix)}," +
+                "matrix should be np.ndarray."
             )
 
         matrix_with_rows_of_one = np.append(

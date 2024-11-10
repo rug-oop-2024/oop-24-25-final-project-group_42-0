@@ -18,7 +18,15 @@ class RandomForestClassifier(ClassificationModel):
     )
 
     @property
-    def random_forest_classifier(self):
+    def random_forest_classifier(self) -> ensemble.RandomForestClassifier:
+        """
+        Getter for the instance of random forest classifier.
+        Args:
+            None
+        Return:
+            An instance of Random Forest classifier
+                [ensemble.RandomForestClassifier]
+        """
         return deepcopy(self._instance_of_random_forest_classifier)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -32,11 +40,14 @@ class RandomForestClassifier(ClassificationModel):
             None
         """
         super().fit(observations, ground_truth)
-        self._instance_of_random_forest_classifier.fit(observations, ground_truth)
+        self._instance_of_random_forest_classifier.fit(
+            observations, ground_truth)
         self._parameters.update(
             {
-                "estimators_": self._instance_of_random_forest_classifier.estimators_,
-                "classes_": self._instance_of_random_forest_classifier.classes_,
+                "estimators_": (
+                    self._instance_of_random_forest_classifier.estimators_),
+                "classes_": (
+                    self._instance_of_random_forest_classifier.classes_),
             }
         )
 
@@ -45,7 +56,8 @@ class RandomForestClassifier(ClassificationModel):
         predicts the ground truth based on the observations,
         the intercept and the coefficient
         Args:
-            observations[np.ndarray]: The observations that need to be predicted
+            observations[np.ndarray]:
+                The observations that need to be predicted
         Returns:
             The predictions of the model as an np.ndarray.
         """

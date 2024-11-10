@@ -38,8 +38,9 @@ def get_metric(name: str) -> "Metric":
             case "root_mean_squared_error":
                 return RootMeanSquaredError()
             case _:
-                raise NotImplementedError(f"We didn't implement {lower_case_name}"
-                                          + " in get_model yet, sorry")
+                raise NotImplementedError("We didn't" +
+                                          f" implement {lower_case_name}" +
+                                          " in get_model yet, sorry")
     elif lower_case_name in CATEGORICAL_METRICS:
         match lower_case_name:
             case "accuracy":
@@ -49,8 +50,9 @@ def get_metric(name: str) -> "Metric":
             case "recall":
                 return Recall()
             case _:
-                raise NotImplementedError(f"We didn't implement {lower_case_name}"
-                                          + " in get_model yet, sorry")
+                raise NotImplementedError("We didn't " +
+                                          f"implement {lower_case_name}" +
+                                          " in get_model yet, sorry")
     else:
         raise ValueError(f"{lower_case_name} not in METRICS.")
 
@@ -69,19 +71,46 @@ class Metric(ABC, BaseModel):
     _type: str = PrivateAttr(default="Undefined")
 
     @property
-    def type(self):
+    def type(self) -> str:
+        """
+        Getter for the type of this class.
+        Args:
+            None
+        Returns:
+            type[str] (continuous, categorical or undefined)
+        """
         return deepcopy(self._type)
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Summary of the results of the metric
+        Args:
+            None
+        Returns:
+            A summary[str]
+        """
         returnstr = (f"self.compared_items: {self._data},"
                      + f" result of {self._name}: {self._result}")
         return returnstr
 
-    def __call__(self, prediction: np.ndarray, ground_truth: np.ndarray):
+    def __call__(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
+        """
+        Runs the evaluate method of this class(evaluates the metric)
+        Args:
+            prediction[np.ndarray]: The predicition of
+                the model the metric is performed on.
+            ground_truth[np.ndarray]:The actual data points.
+        Returns:
+            The outcome of the metric[float].
+        """
         return self.evaluate(prediction, ground_truth)
 
     @abstractmethod
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
         Abstract method of evaluate, checks for common errors
         and saves the data to self._data.
@@ -96,10 +125,8 @@ class Metric(ABC, BaseModel):
 
         if not Type_Checker(ground_truth, np.ndarray):
             Raise_Type_Error(ground_truth, np.ndarray, "ground_truth")
-        self._data = {
-                                "prediction": prediction,
-                                "ground_truth": ground_truth
-                                }
+        self._data = {"prediction": prediction,
+                      "ground_truth": ground_truth}
 
 
 class CategoricalMetric(Metric):
@@ -118,10 +145,14 @@ class ContinuousMetric(Metric):
 
 
 class Accuracy(CategoricalMetric):
-
+    """
+    Class for the accuracy metric.
+    """
     _name: str = PrivateAttr("accuracy")
 
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
         Evaluates the Accuracy metric.
         Args:
@@ -137,10 +168,14 @@ class Accuracy(CategoricalMetric):
 
 
 class Precision(CategoricalMetric):
-
+    """
+    Class for hte precision metric
+    """
     _name: str = PrivateAttr("precision")
 
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
         Evaluates the Precision metric.
         Args:
@@ -179,22 +214,23 @@ class Precision(CategoricalMetric):
 
         answer = 0
         for key in true_positive_dict.keys():
-            answer += (
-                        true_positive_dict[key] / (
-                            true_positive_dict[key] + false_negative_dict[key]
-                        )
-                       )
+            answer += (true_positive_dict[key] / (
+                true_positive_dict[key] + false_negative_dict[key]))
 
         return answer / len(true_positive_dict)
 
 
 class Recall(CategoricalMetric):
-
+    """
+    Class for the recall metric
+    """
     _name: str = PrivateAttr("recall")
 
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
-        evaluates the Recall metric.
+        Evaluates the Recall metric.
         Args:
             prediction[np.ndarray]: The predicition of
                 the model the metric is performed on.
@@ -231,20 +267,21 @@ class Recall(CategoricalMetric):
 
         answer = 0
         for key in true_positive_dict.keys():
-            answer += (
-                        true_positive_dict[key] / (
-                            true_positive_dict[key] + false_positive_dict[key]
-                        )
-                      )
+            answer += (true_positive_dict[key] / (
+                true_positive_dict[key] + false_positive_dict[key]))
 
         return answer / len(true_positive_dict)
 
 
 class MeanSquaredError(ContinuousMetric):
-
+    """
+    Class for mean squared error.
+    """
     _name: str = PrivateAttr("mean_squared_error")
 
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
         Evaluates the Mean squared error metric.
         Args:
@@ -263,10 +300,15 @@ class MeanSquaredError(ContinuousMetric):
 
 
 class RootMeanSquaredError(MeanSquaredError):
+    """
+    Class for Root mean squared error.
+    """
 
     _name: str = PrivateAttr("root_mean_squared_error")
 
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
         evaluates the root mean squared error
         Args:
@@ -280,10 +322,15 @@ class RootMeanSquaredError(MeanSquaredError):
 
 
 class MeanAbsolutePercentageError(ContinuousMetric):
+    """
+    Class for mean absolute percentage error
+    """
 
     _name: str = PrivateAttr("mean_absolute_percentage_error")
 
-    def evaluate(self, prediction: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self,
+                 prediction: np.ndarray,
+                 ground_truth: np.ndarray) -> float:
         """
         evaluates the mean absolute percantage error
         Args:
