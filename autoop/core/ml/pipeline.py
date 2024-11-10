@@ -48,9 +48,8 @@ class Pipeline():
         self._evaluation_metrics_results = []
         if target_feature.type == "categorical" and (
                 model.type != "classification"):
-            raise ValueError(
-                "Model type must be" +
-                " classification for categorical target feature")
+            target_string = " classification for categorical target feature"
+            raise ValueError("Model type must be" + target_string)
         if target_feature.type == "continuous" and model.type != "regression":
             raise ValueError(
                 "Model type must be regression for continuous target feature")

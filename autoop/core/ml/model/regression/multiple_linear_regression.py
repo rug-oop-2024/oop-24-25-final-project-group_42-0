@@ -72,10 +72,10 @@ class MultipleLinearRegression(RegressionModel):
         """
         super().predict(observations)
         if type(self._slope) is not np.ndarray:
-            raise TypeError(
-                f"The variable self._slope is type {type(self._slope)},"
-                + "self._slope should be np.ndarray."
-            )
+            variable_type = "The variable self._slope is type"
+            variable_type_2 = f"{type(self._slope)}"
+            variable_type_3 = ", self._slope should be np.ndarray."
+            raise TypeError(variable_type + variable_type_2 + variable_type_3)
         if observations.shape[1] is not len(self._slope) - 1:
             columns = "Unexpected amount of columns in observations,"
             expected = f"expected{len(self._slope) - 1}"

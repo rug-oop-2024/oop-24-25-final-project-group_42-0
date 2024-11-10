@@ -3,8 +3,10 @@ import streamlit as st
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
-from autoop.core.ml.metric import CATEGORICAL_METRICS, CONTINUOUS_METRICS, get_metric
-from autoop.core.ml.model import CLASSIFICATION_MODELS, REGRESSION_MODELS, get_model
+from autoop.core.ml.metric import (
+    CATEGORICAL_METRICS, CONTINUOUS_METRICS, get_metric)
+from autoop.core.ml.model import (
+    CLASSIFICATION_MODELS, REGRESSION_MODELS, get_model)
 from autoop.core.ml.pipeline import Pipeline
 from autoop.functional.feature import detect_feature_types
 
