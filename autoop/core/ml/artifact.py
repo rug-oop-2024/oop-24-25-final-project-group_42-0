@@ -6,8 +6,14 @@ from copy import deepcopy
 class Artifact():
 
     def __init__(self,
-                 type: str, name: str, data, asset_path: str, tags: list = [],
+                 type: str, name: str, data: object, asset_path: str, tags: list = [],
                  metadata: dict = {}, version: str = "1.0.0"):
+        """
+        initialises init and creates an id based on the asset path
+        requirements: type, name, data, asset_path
+        optional add-ons: tags, metadata, version
+        """
+
         self._name = name
         self._type = type
         self._asset_path = asset_path
@@ -22,36 +28,60 @@ class Artifact():
         self.save(self._data)
 
     @property
-    def name(self):
-        return deepcopy(self._name)
+    def name(self) -> str:
+        """
+        returns the name of the Artifact
+        """
+        return self._name
 
     @property
-    def type(self):
-        return deepcopy(self._type)
+    def type(self) -> str:
+        """
+        returns the type of the Artifact
+        """
+        return self._type
 
     @property
-    def asset_path(self):
-        return deepcopy(self._asset_path)
+    def asset_path(self) -> str:
+        """
+        returns the asset path of the Artifact
+        """
+        return self._asset_path
 
     @property
-    def data(self):
+    def data(self) -> object:
+        """
+        returns a deepcopy of the data of the Artifact
+        """
         return deepcopy(self._data)
 
     @property
-    def tags(self):
+    def tags(self) -> list:
+        """
+        returns a deepcopy of the tags of the Artifact
+        """
         return deepcopy(self._tags)
 
     @property
-    def metadata(self):
+    def metadata(self) -> dict:
+        """
+        returns a deepcopy of the metadata of the Artifact
+        """
         return deepcopy(self._metadata)
 
     @property
-    def version(self):
-        return deepcopy(self._version)
+    def version(self) -> str:
+        """
+        returns the version of the Artifact
+        """
+        return self._version
 
     @property
-    def id(self):
-        return deepcopy(self._id)
+    def id(self) -> str:
+        """
+        returns the id of the Artifact
+        """
+        return self._id
 
     def save(self, bytes: bytes) -> None:
         """
@@ -100,5 +130,5 @@ class Artifact():
             with open("./assets/objects/" + self._asset_path, "r") as file:
                 return file.read()
         except ValueError:
-            raise ValueError("couldn't import from save,"
-                             + " the file might be corrupted")
+            error = "couldn't import from save, the file might be corrupted"
+            raise ValueError(error)
