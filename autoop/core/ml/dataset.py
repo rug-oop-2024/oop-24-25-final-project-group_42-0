@@ -39,7 +39,7 @@ class Dataset(Artifact):
         Args:
             artifact[Artifact]: The artifact that needs to be converted.
         Returns:
-            A Dataset converted from a the given artifact        
+            A Dataset converted from a the given artifact
         """
         return Dataset(
             name=artifact.name,
@@ -56,7 +56,7 @@ class Dataset(Artifact):
         Args:
             None
         Returns:
-            A pandas dataframe converted from a the given artifact        
+            A pandas dataframe converted from a the given artifact
         """
         csv = super().read()
         return pd.read_csv(io.StringIO(csv))

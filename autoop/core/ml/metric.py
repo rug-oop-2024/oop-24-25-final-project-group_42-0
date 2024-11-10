@@ -88,8 +88,8 @@ class Metric(ABC, BaseModel):
         Args:
             prediction (np.ndarray): prediction of the model
             ground_truth (np.ndarray): the actual data points
-        Returns: 
-            None, children return a float 
+        Returns:
+            None, children return a float
         """
         if not Type_Checker(prediction, np.ndarray):
             Raise_Type_Error(prediction, np.ndarray, "prediction")
@@ -125,11 +125,11 @@ class Accuracy(CategoricalMetric):
         """
         Evaluates the Accuracy metric.
         Args:
-            prediction[np.ndarray]: The predicition of 
+            prediction[np.ndarray]: The predicition of
                 the model the metric is performed on.
             ground_truth[np.ndarray]:The actual data points.
         Returns:
-            The outcome of the metric[float]. 
+            The outcome of the metric[float].
         """
         super().evaluate(prediction, ground_truth)
         the_same_amount = sum(ground_truth == prediction)
@@ -144,7 +144,7 @@ class Precision(CategoricalMetric):
         """
         Evaluates the Precision metric.
         Args:
-            prediction[np.ndarray]: The predicition of 
+            prediction[np.ndarray]: The predicition of
                 the model the metric is performed on.
             ground_truth[np.ndarray]:The actual data points.
         Returns:
@@ -196,11 +196,11 @@ class Recall(CategoricalMetric):
         """
         evaluates the Recall metric.
         Args:
-            prediction[np.ndarray]: The predicition of 
+            prediction[np.ndarray]: The predicition of
                 the model the metric is performed on.
             ground_truth[np.ndarray]:The actual data points.
         Returns:
-            The outcome of the metric[float]. 
+            The outcome of the metric[float].
         """
         super().evaluate(prediction, ground_truth)
 
@@ -248,11 +248,11 @@ class MeanSquaredError(ContinuousMetric):
         """
         Evaluates the Mean squared error metric.
         Args:
-            prediction[np.ndarray]: The predicition of 
+            prediction[np.ndarray]: The predicition of
                 the model the metric is performed on
             ground_truth[np.ndarray]:The actual data points
         Returns:
-            the outcome of the metric[float] 
+            the outcome of the metric[float]
         """
         super().evaluate(prediction, ground_truth)
         error = np.subtract(ground_truth, prediction)

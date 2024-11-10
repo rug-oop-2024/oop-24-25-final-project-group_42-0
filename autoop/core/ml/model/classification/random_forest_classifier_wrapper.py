@@ -23,7 +23,7 @@ class RandomForestClassifier(ClassificationModel):
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """
-        Uses the observations and ground truth to fit (train) the model. 
+        Uses the observations and ground truth to fit (train) the model.
         saves the values in self._parameters
         Args:
             observations[np.ndarray]: The observations of the training data.
@@ -47,7 +47,7 @@ class RandomForestClassifier(ClassificationModel):
         Args:
             observations[np.ndarray]: The observations that need to be predicted
         Returns:
-            The predictions of the model as an np.ndarray.        
+            The predictions of the model as an np.ndarray.
         """
         super().predict(observations)
         return self._instance_of_random_forest_classifier.predict(observations)

@@ -48,7 +48,7 @@ class Management():
 
     def save(self, artifact: Artifact) -> None:
         """
-        Saves an artifact 
+        Saves an artifact
         Args:
             artifact[Artifact]: The artifact that needs to be saved.
         Returns:
@@ -79,4 +79,3 @@ if path is not None:
 
 datasets = automl.registry.list(type="dataset")
 st.dataframe(dataset.read())
-

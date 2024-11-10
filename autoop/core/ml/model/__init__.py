@@ -25,7 +25,7 @@ def get_model(model_name: str) -> Model:
     Args:
         model_name[str]: The name of a model that needs to be retrieved.
     Returns:
-        The model[Model] of the given name. 
+        The model[Model] of the given name.
     """
     lowercase_model_name = model_name.lower()
 

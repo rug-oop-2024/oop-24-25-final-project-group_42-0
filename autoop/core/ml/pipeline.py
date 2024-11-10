@@ -112,7 +112,7 @@ Pipeline(
     def _split_data(self) -> None:
         """
         Split the data given at creation into training and testing sets.
-        Args: 
+        Args:
             None
         Returns:
             None
@@ -131,7 +131,7 @@ Pipeline(
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
         """
         Joins multiple vectors together.
-        Args: 
+        Args:
             vectors[vectors: List[np.array]]
         Returns:
             A vector[np.array]
@@ -175,7 +175,7 @@ Pipeline(
     def execute(self) -> None:
         """
         Executes the pipeline: preprocesses and splits the data,
-        trains the model and then evaluates using the metrics. 
+        trains the model and then evaluates using the metrics.
         Args:
             None
         Return:

@@ -30,7 +30,7 @@ class Lasso(RegressionModel):
             observations[np.ndarray]: The observations of the training data.
             ground_truth[np.ndarray]: The ground truth of the training data.
         Returns:
-            None        
+            None
         """
         super().fit(observations, ground_truth)
         self._instance_of_lasso.fit(observations, ground_truth)
@@ -48,7 +48,7 @@ class Lasso(RegressionModel):
         Args:
             observations[np.ndarray]: The observations that need to be predicted
         Returns:
-            The predictions of the model as an np.ndarray.   
+            The predictions of the model as an np.ndarray.
         """
         super().predict(observations)
         return self._instance_of_lasso.predict(observations)

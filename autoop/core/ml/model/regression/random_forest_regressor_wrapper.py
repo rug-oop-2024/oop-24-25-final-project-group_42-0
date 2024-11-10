@@ -47,7 +47,7 @@ class RandomForestRegressor(RegressionModel):
         Args:
             observations[np.ndarray]: The observations that need to be predicted
         Returns:
-            The predictions of the model as an np.ndarray.        
+            The predictions of the model as an np.ndarray.
         """
         super().predict(observations)
         return self._instance_of_random_forest_regressor.predict(observations)

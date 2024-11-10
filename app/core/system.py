@@ -15,7 +15,7 @@ class ArtifactRegistry():
     def register(self, artifact: Artifact) -> None:
         """
         Saves the artifact in storage and the metadata in the database.
-        Args: 
+        Args:
         artifact[Artifact]: the artifact that needs to be saved.
         Returns:
         None

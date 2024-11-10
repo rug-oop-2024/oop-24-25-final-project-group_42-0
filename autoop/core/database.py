@@ -72,7 +72,7 @@ class Database():
     def refresh(self) -> None:
         """
         Refresh the database by loading the data from storage
-        Args: 
+        Args:
             None
         Returns:
             None

@@ -18,7 +18,7 @@ class Storage(ABC):
         Args:
             data (bytes): Data to save
             path (str): Path to save data
-        Returns: 
+        Returns:
             None
         """
         pass
@@ -40,7 +40,7 @@ class Storage(ABC):
         Delete data at a given path
         Args:
             path (str): Path to delete data
-        Returns: 
+        Returns:
             None
         """
         pass
@@ -70,7 +70,7 @@ class LocalStorage(Storage):
         Args:
             data (bytes): Data to save
             path (str): Path to save data
-        Returns: 
+        Returns:
             None
         """
         path = self._join_path(key)
@@ -97,7 +97,7 @@ class LocalStorage(Storage):
         Delete data at a given path
         Args:
             path (str): Path to delete data
-        Returns: 
+        Returns:
             None
         """
         self._assert_path_exists(self._join_path(key))
