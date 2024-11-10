@@ -15,8 +15,9 @@ class Artifact():
         self._tags = tags
         self._metadata = metadata
         self._version = version
-        encoded_string = base64.b64encode(asset_path.encode("utf-8"))
-        self._id = f"{encoded_string.decode("utf-8")}={version}"
+        encoded = base64.b64encode(asset_path.encode("utf-8"))
+        encoded_string = encoded.decode("utf-8")
+        self._id = f"{encoded_string}={version}"
 
         self.save(self._data)
 
