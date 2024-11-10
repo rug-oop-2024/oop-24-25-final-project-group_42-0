@@ -4,10 +4,15 @@ from copy import deepcopy
 
 
 class Artifact():
+    """
+    Artifact class that allows for saving and reading data from files
+    Methods: save, remove, read
+    """
 
     def __init__(self,
-                 type: str, name: str, data: object, asset_path: str, tags: list = [],
-                 metadata: dict = {}, version: str = "1.0.0"):
+                 type: str, name: str, data: object,
+                 asset_path: str, tags: list = [],
+                 metadata: dict = {}, version: str = "1.0.0") -> None:
         """
         initialises init and creates an id based on the asset path
         requirements: type, name, data, asset_path
