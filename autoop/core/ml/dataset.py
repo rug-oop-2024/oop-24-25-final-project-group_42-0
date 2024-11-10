@@ -14,7 +14,8 @@ class Dataset(Artifact):
     def __init__(self, *args, **kwargs) -> None:
         """
         initialisation of a Dataset file
-        sends all of them to Artifact with an extra parameter being type="dataset"
+        sends all of them to Artifact
+        with an extra parameter being type="dataset"
         """
         super().__init__(type="dataset", *args, **kwargs)
 

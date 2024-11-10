@@ -31,7 +31,8 @@ def get_model(model_name: str) -> Model:
         The model[Model] of the given name.
     """
     lowercase_model_name = model_name.lower()
-
+    error_message_1 = f"We didn't implement {lowercase_model_name}"
+    error_message_2 = " in get_model yet, sorry"
     if lowercase_model_name in REGRESSION_MODELS:
         match lowercase_model_name:
             case "multiple_linear_regression":
@@ -41,9 +42,7 @@ def get_model(model_name: str) -> Model:
             case "random_forest_classifier":
                 return Lasso()
             case _:
-                raise NotImplementedError("We didn't implement "
-                                          + f"{lowercase_model_name}"
-                                          + " in get_model yet, sorry")
+                raise NotImplementedError(error_message_1 + error_message_2)
     elif lowercase_model_name in CLASSIFICATION_MODELS:
         match lowercase_model_name:
             case "k_nearest_neighbours":
@@ -53,9 +52,6 @@ def get_model(model_name: str) -> Model:
             case "random_forest_classifier":
                 return RandomForestClassifier()
             case _:
-                raise NotImplementedError("We didn't implement"
-                                          + f"{lowercase_model_name}"
-                                          + "in get_model yet, sorry")
-
+                raise NotImplementedError(error_message_1 + error_message_2)
     else:
-        raise ValueError("That don exis bruh.")
+        raise ValueError(f"no model by the name {lowercase_model_name}")

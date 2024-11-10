@@ -29,6 +29,8 @@ def get_metric(name: str) -> "Metric":
     """
 
     lower_case_name = name.lower()
+    error_message_1 = f"We didn't implement {lower_case_name}"
+    error_message_2 = " in get_model yet, sorry"
     if lower_case_name in CONTINUOUS_METRICS:
         match lower_case_name:
             case "mean_squared_error":
@@ -38,9 +40,7 @@ def get_metric(name: str) -> "Metric":
             case "root_mean_squared_error":
                 return RootMeanSquaredError()
             case _:
-                raise NotImplementedError("We didn't"
-                                          + f" implement {lower_case_name}"
-                                          + " in get_model yet, sorry")
+                raise NotImplementedError(error_message_1 + error_message_2)
     elif lower_case_name in CATEGORICAL_METRICS:
         match lower_case_name:
             case "accuracy":
@@ -50,9 +50,7 @@ def get_metric(name: str) -> "Metric":
             case "recall":
                 return Recall()
             case _:
-                raise NotImplementedError("We didn't "
-                                          + f"implement {lower_case_name}"
-                                          + " in get_model yet, sorry")
+                raise NotImplementedError(error_message_1 + error_message_2)
     else:
         raise ValueError(f"{lower_case_name} not in METRICS.")
 
@@ -89,9 +87,9 @@ class Metric(ABC, BaseModel):
         Returns:
             A summary[str]
         """
-        returnstr = (f"self.compared_items: {self._data},"
-                     + f" result of {self._name}: {self._result}")
-        return returnstr
+        return_str_1 = f"self.compared_items: {self._data}, result"
+        return_str_2 = (return_str_1 + f" of {self._name}: {self._result}")
+        return return_str_2
 
     def __call__(self,
                  prediction: np.ndarray,

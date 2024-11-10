@@ -73,15 +73,14 @@ class MultipleLinearRegression(RegressionModel):
         super().predict(observations)
         if type(self._slope) is not np.ndarray:
             raise TypeError(
-                f"The variable self._slope is type {type(self._slope)}," +
-                "self._slope should be np.ndarray."
+                f"The variable self._slope is type {type(self._slope)},"
+                + "self._slope should be np.ndarray."
             )
         if observations.shape[1] is not len(self._slope) - 1:
-            raise ValueError(
-                "Unexpected amount of columns in observations," +
-                f"expected{len(self._slope) - 1}" +
-                f"got{observations.shape[1]}. "
-            )
+            columns = "Unexpected amount of columns in observations,"
+            expected = f"expected{len(self._slope) - 1}"
+            got = f" got{observations.shape[1]}."
+            raise ValueError(columns + expected + got)
 
         observations_with_constants = (
             MultipleLinearRegression._add_row_of_ones(
@@ -99,10 +98,8 @@ class MultipleLinearRegression(RegressionModel):
             Matrix[np.ndarray] with an added row of ones.
         """
         if type(matrix) is not np.ndarray:
-            raise TypeError(
-                f"The variable matrix is type {type(matrix)}," +
-                "matrix should be np.ndarray."
-            )
+            variable_type = f"The variable matrix is type {type(matrix)},"
+            raise TypeError(variable_type + "matrix should be np.ndarray.")
 
         matrix_with_rows_of_one = np.append(
             matrix, np.array([[1] for _ in range(matrix.shape[0])]), axis=1

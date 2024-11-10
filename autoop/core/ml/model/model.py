@@ -70,14 +70,11 @@ class Model(ABC, BaseModel):
         Returns:
             None
         """
+        error_1 = "fit doesn't accept observations of type:"
         if type(observations) is not np.ndarray:
-            raise TypeError(
-                "fit doesn't accept observations of type:" 
-                + f"{type(observations)}"
-            )
+            raise TypeError(error_1 + f"{type(observations)}")
         elif type(ground_truth) is not np.ndarray:
-            raise TypeError("fit doesn't accept observations of type:" 
-                            + f"{type(ground_truth)}")
+            raise TypeError(error_1 + f"{type(ground_truth)}")
         self._parameters = {
             "observations": observations,
             "ground_truth": ground_truth
@@ -94,10 +91,9 @@ class Model(ABC, BaseModel):
             The predictions of the model as an np.ndarray.
         """
         if type(observations) is not np.ndarray:
-            raise TypeError(
-                "predict doesn't accept observations of type:" 
-                + f"{type(observations)}"
-            )
+            error_1 = "predict doesn't accept observations of type:"
+            error_2 = f"{type(observations)}"
+            raise TypeError(error_1 + error_2)
 
 
 class ClassificationModel(Model):

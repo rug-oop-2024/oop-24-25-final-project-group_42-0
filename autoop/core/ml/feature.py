@@ -52,8 +52,8 @@ class Feature():
         if new_type in ["categorical", "continuous"]:
             self._type = new_type
         else:
-            print("type has to be categorical or continuous,"
-                  + f" was given {new_type} instead")
+            first_part = "type has to be categorical or continuous,"
+            print(first_part + f" was given {new_type} instead")
 
     def __str__(self) -> str:
         """
